@@ -32,10 +32,11 @@ GitHub Pages.
    allowlist is a deliberate decision, not a workaround for a failing check.
 4. **No `localStorage`, `sessionStorage`, or any browser storage.** State lives
    in JS variables for the session and that is fine.
-5. **Do not claim more privacy than the code delivers.** Thumbnails currently
-   load from Google's image server, so "no third party is contacted before you
-   press play" is not strictly true. Either self-host thumbnails or keep the
-   footer wording accurate.
+5. **Do not claim more privacy than the code delivers.** Thumbnails come from
+   Google's image servers and the typefaces from Google Fonts, so Google is
+   contacted on page load, before any click. The footer says exactly that. If
+   the loading behaviour ever changes — self-hosted fonts, a thumbnail-free
+   facade — the footer changes with it, in the same commit.
 
 ## Voice
 
@@ -82,6 +83,26 @@ questions when the answer would change what gets built.
 See `DECISIONS.md` before proposing a change to naming, card structure, or the
 authoring workflow. Several obvious-looking ideas were tried and turned down for
 reasons that are not visible from the current code.
+
+## Files
+
+- `index.html` — markup only
+- `styles.css` — all styling
+- `entries.js` — the collection, as `window.ENTRIES`. The only file edited routinely
+- `app.js` — the `AREAS` taxonomy, the `ALLOWED` host list, and all behaviour
+- `tools/check-links.mjs` — the collection checker, run in CI
+
+## Checks
+
+`node tools/check-links.mjs` validates required fields, known `area` and
+`verdict` values, that no `surface` names one of its own concepts, and that
+every `media.videoId` still resolves at YouTube. `--offline` skips the network
+half. GitHub Actions runs it on content changes and weekly.
+
+It proves it can reach YouTube before believing any 403, because a filtering
+proxy answers 403 as well, and reporting a healthy clip as dead would make the
+check worse than useless. Exit `1` is a real problem, `2` means liveness could
+not be determined.
 
 ## Data model
 
@@ -175,6 +196,6 @@ Quality floor, not negotiable: responsive to mobile, visible keyboard focus,
 
 ## Open questions
 
-- Verify real links for the entries still showing "No verified clip yet".
-- Decide on self-hosted thumbnails vs. accurate footer wording.
-- A link-checking script, run periodically, to catch dead embeds early.
+- Verify real links for the 20 entries still showing "No verified clip yet".
+  Paste a candidate address into the `Add a clip` form to extract and validate
+  it, then run the checker to confirm the video actually resolves.

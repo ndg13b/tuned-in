@@ -75,11 +75,45 @@ wall.
 GitHub Pages. Static, free, HTTPS, and the version history is genuinely useful
 when a clip gets pulled and you need to see what was there before.
 
+## File layout
+
+Split into `index.html`, `styles.css`, `entries.js`, `app.js`. The data model
+already specified that content lives in `entries.js` as `window.ENTRIES`, so the
+single file contradicted its own spec. Everything was moved mechanically rather
+than retyped, and the result was checked in a browser against the prototype's
+behaviour before the split was committed.
+
+## Thumbnails and the privacy claim
+
+The footer used to say no third party is contacted before you press play. That
+was not true: thumbnails load from Google's image servers, and so do the
+typefaces.
+
+- **Self-hosted thumbnails.** Rejected. Keeps both the recognition and the
+  claim, but sits close to the never-rehost directive, adds weight to the repo,
+  and goes stale silently when a clip changes.
+- **Drop thumbnails, use a typographic facade.** Rejected, and this is the
+  interesting one. It would have made the original sentence strictly true, but
+  recognition is the engagement thesis of the entire site — someone scanning the
+  grid recognises The Office from its thumbnail, and that is the door in. Buying
+  a privacy claim with the site's main mechanism is a bad trade when an honest
+  sentence costs nothing.
+- **Chosen:** reword the footer. It now names Google's image servers and Google
+  Fonts, says the player itself waits for the click, and says nothing is stored
+  in the browser. All four claims are true of the code as written.
+
+## Link checking
+
+`tools/check-links.mjs`, run by GitHub Actions on content changes and weekly.
+Checks structure, checks that no `surface` names one of its own concepts, and
+checks that every video id still resolves.
+
+It confirms it can actually reach YouTube before treating a 403 as a dead video,
+because a filtering proxy answers 403 too. That distinction is not academic: the
+first version of the script reported all three sourced clips as dead when the
+real problem was a blocked host. A checker that cries wolf gets ignored, which
+would leave the site with no defence against its main long-term threat.
+
 ## Still open
 
-- Verify links for the entries showing "No verified clip yet".
-- Self-hosted thumbnails, or reword the footer so the privacy claim is accurate.
-  Thumbnails currently load from Google's image server, so "no third party is
-  contacted before you press play" is not strictly true today.
-- Split the single file into `index.html`, `entries.js`, `app.js`, `styles.css`.
-- A periodic link-checking script to catch dead embeds early.
+- Verify links for the 20 entries showing "No verified clip yet".
