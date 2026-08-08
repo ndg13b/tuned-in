@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tuned In — what your mind is doing while you watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div>
+      <p class="kicker">A teaching collection &middot; cognitive psychology</p>
+      <h1 class="logo">Tuned In<em>what your mind is doing while you watch</em></h1>
+    </div>
+    <div>
+      <div class="mode" role="group" aria-label="Display mode">
+        <button data-mode="reference" aria-pressed="true">Reference</button>
+        <button data-mode="class" aria-pressed="false">Class</button>
+      </div>
+      <p class="mode-note" id="mode-note">Explanations shown with every clip.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="views" aria-label="Views">
+  <div class="wrap views-inner">
+    <button class="tab" data-view="explore" aria-current="true">Explore</button>
+    <button class="tab" data-view="browse">Browse all</button>
+    <button class="tab" data-view="syllabus">By course unit</button>
+    <button class="tab" data-view="add">Add a clip</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="view" id="view-explore">
+    <h2 class="sec">Start here</h2>
+    <p class="sec-note">One clip at a time, drawn at random. Watch it, then read what your mind was doing while you did.</p>
+    <div class="stage-one" id="explore-stage"></div>
+    <div class="explore-controls">
+      <button class="btn" id="next">Another clip</button>
+      <button class="btn ghost" id="to-browse">See all of them</button>
+    </div>
+  </section>
+
+  <section class="view" id="view-browse" hidden>
+    <h2 class="sec">The whole collection</h2>
+    <p class="sec-note">Filter by area of study, or search a concept, a show, or a phrase you half-remember.</p>
+    <div class="filters">
+      <input type="search" class="search" id="q" placeholder="Search concepts, shows, phrases&hellip;" aria-label="Search clips">
+      <div class="chips" id="area-chips" role="group" aria-label="Filter by area"></div>
+      <div class="chips" id="verdict-chips" role="group" aria-label="Filter by verdict"></div>
+      <p class="count" id="count"></p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <p>No clips match that. Clear a filter or search a different concept.</p>
+      <button class="btn ghost" id="clear">Clear all filters</button>
+    </div>
+  </section>
+
+  <section class="view" id="view-syllabus" hidden>
+    <h2 class="sec">By course unit</h2>
+    <p class="sec-note">Grouped the way a course tends to run. Copy any line straight into a slide or an assignment.</p>
+    <div id="modules"></div>
+  </section>
+
+  <section class="view" id="view-add" hidden>
+    <h2 class="sec">Add a clip</h2>
+    <p class="sec-note">Fill this in and it hands back a finished entry to paste into your data file. Nothing is sent anywhere.</p>
+    <p class="allow"><strong>Links are checked against an allowlist before an entry is accepted</strong>, so a visitor can never be sent somewhere unvetted. Currently permitted: <code>youtube.com</code> <code>youtu.be</code> <code>vimeo.com</code> <code>ted.com</code> <code>pbs.org</code> <code>bbc.co.uk</code> <code>npr.org</code> <code>archive.org</code> and any <code>.edu</code> host. Paste a full YouTube address and the video and its start time get pulled out for you. Leave it blank if you have not found a good copy yet &mdash; the clip still gets a card.</p>
+
+    <div class="form" id="form">
+      <div class="field wide"><label for="f-url">Paste the clip address (optional)</label><input id="f-url" placeholder="https://www.youtube.com/watch?v=…&amp;t=84s"></div>
+      <div class="field"><label for="f-title">Source title</label><input id="f-title" placeholder="The Office (US)"></div>
+      <div class="field"><label for="f-kind">Format</label><input id="f-kind" placeholder="Television comedy"></div>
+      <div class="field wide"><label for="f-detail">Where in it</label><input id="f-detail" placeholder="Michael follows the satnav into a lake"></div>
+      <div class="field"><label for="f-module">Course unit</label><input id="f-module" list="modlist" placeholder="Judgment &amp; decision making"><datalist id="modlist"></datalist></div>
+      <div class="field"><label for="f-note">Content note (blank if none)</label><input id="f-note" placeholder="Distressing material"></div>
+      <div class="field wide"><label for="f-surface">What you see happen</label><textarea id="f-surface" placeholder="Describe it without naming any concept. In Class mode this is all students get."></textarea></div>
+      <div class="field wide"><label for="f-prompt">Discussion prompt for Class mode</label><input id="f-prompt" placeholder="What is going wrong here, and whose fault is it?"></div>
+      <div id="cblocks"></div>
+      <div class="row-btns">
+        <button class="btn ghost" id="add-concept">Add another concept</button>
+        <button class="btn" id="make">Build the entry</button>
+      </div>
+      <div class="field wide"><label for="f-tags">Tags, comma separated</label><input id="f-tags" placeholder="funny, the office, technology"></div>
+    </div>
+    <p class="msg" id="form-msg"></p>
+    <pre class="out" id="out" hidden></pre>
+    <button class="btn ghost" id="copy-out" hidden>Copy entry</button>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Clips play through each platform's own player and are never rehosted, so every view is counted for the rights holder. Thumbnails come from Google's image servers and the typefaces from Google Fonts, so opening a page contacts Google before you have pressed anything; what waits for your click is the player itself, which runs on <code>youtube-nocookie.com</code>. Nothing is stored in your browser. Every card carries enough description to be found again if its link ever dies.</p>
+</footer>
+
+<script src="entries.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
