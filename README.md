@@ -1,0 +1,118 @@
+# Tuned In
+
+*What your mind is doing while you watch.*
+
+A teaching collection that pairs pop culture clips with the cognitive psychology
+concepts they demonstrate. Built for college students and the people teaching
+them, and readable by anyone who is curious.
+
+The premise is that a clip someone already recognises is a better door into a
+concept than a definition is. Students arrive having seen Michael Scott drive
+into a lake; they arrive believing what *Lie to Me* told them about spotting a
+liar. Both are useful, and the second is often more useful than the first.
+
+**Live at <https://ndg13b.github.io/tuned-in/>**
+
+## The three verdicts
+
+Every concept on a card carries one, and the middle one is doing real work.
+
+| Verdict | Means |
+| --- | --- |
+| `accurate` | The clip shows the real thing. |
+| `overstated` | Real phenomenon, exaggerated portrayal. Sherlock's mind palace is a genuine technique filmed as though it were instant. |
+| `myth` | Pop culture gets it wrong. Behavioural lie detection; the ten percent myth. |
+
+Collapsing these into right and wrong would make the site less accurate than the
+shows it corrects, so all three stay. Clips that get it wrong are as valuable as
+clips that get it right — correcting a misconception someone holds confidently
+tends to stick better than a clean example does.
+
+## Two modes
+
+A switch in the masthead, applying to every view.
+
+- **Reference** — explanations visible with every clip. For browsing, looking
+  something up, or sending a student a link.
+- **Class** — the clip, a description of what happens, and a discussion prompt.
+  Explanations stay hidden behind a button that says how many concepts are
+  waiting, so a class has a findable target rather than an open guess.
+
+## Views
+
+- **Explore** — one clip at a time, drawn at random. The landing view, for
+  anyone with no idea where to start.
+- **Browse all** — search, plus filters by area of study and by verdict.
+- **By course unit** — grouped the way a course tends to run, with a copy button
+  on each line for dropping into slides or a syllabus.
+- **Add a clip** — the authoring workflow. Paste an address, and it checks the
+  host against the allowlist, pulls out the video id and start time, and hands
+  back a finished entry to paste into `entries.js`.
+
+## What this site will not do
+
+These are constraints on the project, not features that happened to ship.
+
+- **No invented links.** If a clip has not been found and verified, its
+  `videoId` stays empty and the card renders "No verified clip yet". A fabricated
+  link would be worse than an empty one on a site whose promise is that its links
+  are safe.
+- **No rehosting.** Clips play through the platform's own embed player, so the
+  view is counted for the rights holder. Nothing is downloaded, re-edited or
+  mirrored. Some sources forbid it outright.
+- **No unvetted destinations.** Every link is checked against an allowlist of
+  hosts before an entry ships.
+- **No browser storage.** No `localStorage`, no cookies, nothing kept after you
+  close the tab.
+- **No overstated privacy claims.** Thumbnails come from Google's image servers
+  and the typefaces from Google Fonts, so Google is contacted when a page loads.
+  The footer says so. What waits for your click is the player itself, which runs
+  on `youtube-nocookie.com` — twenty-odd players do not load just because you
+  opened the page.
+
+## Working on it
+
+```
+entries.js             the collection, as window.ENTRIES — the file edited routinely
+app.js                 the taxonomy, the allowlist, and all behaviour
+styles.css             all styling
+index.html             markup
+tools/check-links.mjs  the collection checker
+```
+
+No build step and no dependencies. Open `index.html`, or serve the directory
+with any static server.
+
+### Checking the collection
+
+```sh
+node tools/check-links.mjs             # structure, editorial rules, and live clips
+node tools/check-links.mjs --offline   # skip the network half
+```
+
+It verifies that entries are structurally sound, that no description gives away
+its own concept — which would break Class mode, where that description is all a
+student sees — and that every video id still resolves. For each clip it prints
+the live video title, so an id that has quietly come to point somewhere else is
+visible rather than passing as a bare 200.
+
+It also confirms it can actually reach YouTube before treating a 403 as a dead
+video, because a filtering proxy answers 403 too. Exit `1` is a real problem;
+exit `2` means liveness could not be determined.
+
+GitHub Actions runs it on every change to the collection and once a week, since
+link rot is the main long-term threat here.
+
+## Context for contributors
+
+`CLAUDE.md` holds the editorial rules, the data model and the voice.
+`DECISIONS.md` records what was considered and turned down, and why — worth
+reading before proposing a change to the naming, the card structure or the
+authoring workflow, since several obvious-looking ideas were tried and rejected
+for reasons that are not visible from the code.
+
+## Licence
+
+See `LICENSE`. It covers the code in this repository. It does not cover the
+linked clips, which remain the property of their rights holders and are embedded
+rather than reproduced.
