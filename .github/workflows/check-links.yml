@@ -1,0 +1,51 @@
+name: Check links
+
+# Link rot is the main long-term threat to this site, so the collection gets
+# checked on every change to the content and once a week regardless.
+
+on:
+  push:
+    paths:
+      - entries.js
+      - tools/check-links.mjs
+      - .github/workflows/check-links.yml
+  pull_request:
+    paths:
+      - entries.js
+      - tools/check-links.mjs
+      - .github/workflows/check-links.yml
+  schedule:
+    - cron: "0 7 * * 1"
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Check entries and clips
+        run: |
+          set +e
+          node tools/check-links.mjs > result.txt 2>&1
+          code=$?
+          set -e
+
+          cat result.txt
+          {
+            echo '```'
+            cat result.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          # 2 means YouTube could not be reached, so liveness is simply unknown.
+          # That is not a broken collection and should not show up as one.
+          if [ "$code" -eq 2 ]; then
+            echo "::warning::Could not reach YouTube, so clip liveness went unchecked on this run."
+            exit 0
+          fi
+          exit "$code"

@@ -1,0 +1,266 @@
+const ENTRIES = window.ENTRIES || [];
+
+const AREAS = [
+  ["perception","Perception"], ["attention","Attention"], ["memory","Memory"],
+  ["jdm","Judgment & decision making"], ["social","Social cognition"], ["meta","Metacognition & myths"]
+];
+
+const ALLOWED = ["youtube.com","www.youtube.com","youtu.be","youtube-nocookie.com",
+  "www.youtube-nocookie.com","vimeo.com","www.vimeo.com","player.vimeo.com","ted.com","www.ted.com",
+  "pbs.org","www.pbs.org","bbc.co.uk","www.bbc.co.uk","npr.org","www.npr.org","archive.org","www.archive.org"];
+
+/* ==========================================================================
+   MACHINERY
+   ========================================================================== */
+
+const areaLabel = k => (AREAS.find(a => a[0] === k) || [k,k])[1];
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let MODE = "reference";
+let uid = 0;
+
+function isAllowed(url){
+  try{ const h = new URL(url).hostname.toLowerCase();
+       return ALLOWED.includes(h) || h.endsWith(".edu"); }catch(e){ return false; }
+}
+function parseYouTube(url){
+  try{
+    const u = new URL(url);
+    let id = "";
+    if(u.hostname.includes("youtu.be")) id = u.pathname.slice(1);
+    else if(u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2];
+    else id = u.searchParams.get("v") || "";
+    let start = 0;
+    const t = u.searchParams.get("t") || u.searchParams.get("start") || u.hash.replace("#t=","");
+    if(t){
+      const m = /^(?:(\d+)m)?(?:(\d+)s?)?$/.exec(t);
+      if(m && (m[1] || m[2])) start = (parseInt(m[1]||0,10)*60) + parseInt(m[2]||0,10);
+      else start = parseInt(t,10) || 0;
+    }
+    return {id, start};
+  }catch(e){ return {id:"", start:0}; }
+}
+const mmss = s => s ? Math.floor(s/60) + ":" + String(s%60).padStart(2,"0") : "";
+
+function stageHTML(e){
+  const m = e.media || {};
+  if(m.videoId){
+    return `<div class="stage">
+      <button class="facade" data-vid="${esc(m.videoId)}" data-start="${m.start||0}"
+              aria-label="Play: ${esc(e.source.title)}">
+        <img src="https://i.ytimg.com/vi/${esc(m.videoId)}/hqdefault.jpg" alt="" loading="lazy">
+        <span class="play">Play${m.start ? " from " + mmss(m.start) : ""}</span>
+      </button></div>`;
+  }
+  return `<div class="stage"><div class="noclip">
+      <strong>No verified clip yet</strong>
+      <span>${esc(e.source.title)} &mdash; ${esc(e.source.detail)}. The description below is enough to find it.</span>
+    </div></div>`;
+}
+
+function conceptsHTML(e){
+  return `<ul class="concepts">` + e.concepts.map((c,i) => `
+    <li><span class="num ${c.verdict}">${i+1}</span>
+      <div>
+        <p class="cname">${esc(c.name)}</p>
+        <p class="cmeta">${esc(areaLabel(c.area))} &middot; <span class="v ${c.verdict}">${c.verdict}</span></p>
+        <p class="cexp">${esc(c.explanation)}</p>
+      </div></li>`).join("") + `</ul>`;
+}
+
+function cardHTML(e){
+  const id = "k" + (uid++);
+  const n = e.concepts.length;
+  const open = MODE === "reference";
+  const label = n === 1 ? "Reveal the concept" : "Reveal the " + n + " concepts";
+  return `<article class="card" id="${id}" data-open="${open}">
+    ${e.note ? `<p class="advisory"><b>Content note</b> &mdash; ${esc(e.note)}</p>` : ""}
+    ${stageHTML(e)}
+    <div class="body">
+      <p class="source"><b>${esc(e.source.title)}</b>${esc(e.source.kind)} &middot; ${esc(e.source.detail)}</p>
+      <p class="surface-txt">${esc(e.surface)}</p>
+      ${!open && e.prompt ? `<p class="prompt">${esc(e.prompt)}</p>` : ""}
+      ${!open ? `<div class="reveal-wrap"><button class="reveal" data-open="${id}">${label}</button></div>` : ""}
+      <div class="hidden-panel"><div>
+        <p class="divider">${n === 1 ? "What is going on" : n + " concepts at work here"}</p>
+        ${conceptsHTML(e)}
+      </div></div>
+      <div class="foot"><p class="tags">${e.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</p></div>
+    </div>
+  </article>`;
+}
+
+document.addEventListener("click", async ev => {
+  const play = ev.target.closest(".facade");
+  if(play){
+    const s = parseInt(play.dataset.start,10) || 0;
+    play.closest(".stage").innerHTML =
+      `<iframe src="https://www.youtube-nocookie.com/embed/${play.dataset.vid}?autoplay=1&rel=0${s > 0 ? "&start=" + s : ""}"
+        title="Embedded clip" allow="accelerometer;autoplay;encrypted-media;picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    return;
+  }
+  const rev = ev.target.closest(".reveal");
+  if(rev){
+    document.getElementById(rev.dataset.open).dataset.open = "true";
+    rev.closest(".reveal-wrap").remove();
+    return;
+  }
+  const cp = ev.target.closest("[data-copy]");
+  if(cp){
+    try{ await navigator.clipboard.writeText(cp.dataset.copy); cp.textContent = "Copied"; }
+    catch(e){ cp.textContent = "Copy failed"; }
+    setTimeout(() => { cp.textContent = "Copy"; }, 1400);
+  }
+});
+
+document.querySelectorAll(".mode button").forEach(b => b.addEventListener("click", () => {
+  MODE = b.dataset.mode;
+  document.querySelectorAll(".mode button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  document.getElementById("mode-note").textContent = MODE === "reference"
+    ? "Explanations shown with every clip."
+    : "Clips only. Discuss first, then reveal.";
+  render(); drawOne(true);
+}));
+
+const tabs = [...document.querySelectorAll(".tab")];
+function go(v){
+  tabs.forEach(x => x.setAttribute("aria-current", String(x.dataset.view === v)));
+  ["explore","browse","syllabus","add"].forEach(k =>
+    document.getElementById("view-" + k).hidden = (k !== v));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+tabs.forEach(t => t.addEventListener("click", () => go(t.dataset.view)));
+document.getElementById("to-browse").addEventListener("click", () => go("browse"));
+
+let last = -1;
+function drawOne(keep){
+  let i = last;
+  if(!keep || last < 0){
+    do { i = Math.floor(Math.random()*ENTRIES.length); } while(ENTRIES.length > 1 && i === last);
+  }
+  last = i;
+  document.getElementById("explore-stage").innerHTML = cardHTML(ENTRIES[i]);
+}
+document.getElementById("next").addEventListener("click", () => drawOne(false));
+drawOne(false);
+
+const state = {q:"", areas:new Set(), verdicts:new Set()};
+document.getElementById("area-chips").innerHTML = AREAS.map(([k,l]) =>
+  `<button class="chip" data-area="${k}" aria-pressed="false">${l}</button>`).join("");
+document.getElementById("verdict-chips").innerHTML = ["accurate","overstated","myth"].map(v =>
+  `<button class="chip" data-verdict="${v}" aria-pressed="false">${v === "myth" ? "Gets it wrong" : v[0].toUpperCase()+v.slice(1)}</button>`).join("");
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  const key = c.dataset.area ? "areas" : "verdicts";
+  const val = c.dataset.area || c.dataset.verdict;
+  state[key].has(val) ? state[key].delete(val) : state[key].add(val);
+  c.setAttribute("aria-pressed", String(state[key].has(val)));
+  render();
+}));
+document.getElementById("q").addEventListener("input", e => {
+  state.q = e.target.value.toLowerCase().trim(); render();
+});
+document.getElementById("clear").addEventListener("click", () => {
+  state.q = ""; state.areas.clear(); state.verdicts.clear();
+  document.getElementById("q").value = "";
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed","false"));
+  render();
+});
+function matches(e){
+  if(state.areas.size && !e.concepts.some(c => state.areas.has(c.area))) return false;
+  if(state.verdicts.size && !e.concepts.some(c => state.verdicts.has(c.verdict))) return false;
+  if(!state.q) return true;
+  const hay = [e.source.title, e.source.kind, e.source.detail, e.surface, e.tags.join(" "), e.module,
+    e.concepts.map(c => c.name + " " + c.explanation).join(" ")].join(" ").toLowerCase();
+  return hay.includes(state.q);
+}
+function render(){
+  const hits = ENTRIES.filter(matches);
+  document.getElementById("grid").innerHTML = hits.map(cardHTML).join("");
+  document.getElementById("empty").hidden = hits.length > 0;
+  const total = ENTRIES.reduce((n,e) => n + e.concepts.length, 0);
+  document.getElementById("count").textContent =
+    hits.length + " of " + ENTRIES.length + " clips · " + total + " concepts in the collection";
+}
+render();
+
+const mods = [...new Set(ENTRIES.map(e => e.module))];
+document.getElementById("modlist").innerHTML = mods.map(m => `<option value="${esc(m)}">`).join("");
+document.getElementById("modules").innerHTML = mods.map(m => {
+  const list = ENTRIES.filter(e => e.module === m);
+  return `<section class="module"><h3>${esc(m)}</h3>
+    <p class="mcount">${list.length} clip${list.length>1?"s":""} &middot; ${list.reduce((n,e)=>n+e.concepts.length,0)} concepts</p>
+    <div class="rows">${list.map(e => `<div class="row">
+      <div class="row-main"><strong>${esc(e.source.title)}</strong>
+        <span class="clist">${esc(e.source.detail)} &mdash; ${e.concepts.map(c => esc(c.name)).join("; ")}</span></div>
+      <div><button class="btn ghost" data-copy="${esc(e.concepts.map(c=>c.name).join("; "))} — ${esc(e.source.title)} (${esc(e.source.detail)})">Copy</button></div>
+    </div>`).join("")}</div></section>`;
+}).join("");
+
+let cn = 0;
+function conceptBlock(){
+  cn++;
+  const d = document.createElement("fieldset");
+  d.className = "cblock";
+  d.innerHTML = `<legend>Concept ${cn}</legend>
+    <div class="field"><label>Name</label><input class="c-name" placeholder="Anchoring and adjustment"></div>
+    <div class="field"><label>Area</label><select class="c-area">${AREAS.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
+    <div class="field full"><label>Verdict</label><select class="c-verdict">
+      <option value="accurate">Accurate — shows the real thing</option>
+      <option value="overstated">Overstated — right idea, exaggerated</option>
+      <option value="myth">Myth — gets it wrong</option></select></div>
+    <div class="field full"><label>Explanation</label><textarea class="c-exp"></textarea></div>`;
+  document.getElementById("cblocks").appendChild(d);
+}
+conceptBlock();
+document.getElementById("add-concept").addEventListener("click", conceptBlock);
+
+document.getElementById("make").addEventListener("click", () => {
+  const g = id => document.getElementById(id).value.trim();
+  const msg = document.getElementById("form-msg"), out = document.getElementById("out"),
+        copyBtn = document.getElementById("copy-out");
+  const raw = g("f-url");
+
+  const concepts = [...document.querySelectorAll(".cblock")].map(b => ({
+    name: b.querySelector(".c-name").value.trim(),
+    area: b.querySelector(".c-area").value,
+    verdict: b.querySelector(".c-verdict").value,
+    explanation: b.querySelector(".c-exp").value.trim()
+  })).filter(c => c.name && c.explanation);
+
+  const missing = [];
+  if(!g("f-title")) missing.push("a source title");
+  if(!g("f-surface")) missing.push("what you see happen");
+  if(!concepts.length) missing.push("at least one concept with an explanation");
+  if(missing.length){
+    msg.className = "msg bad"; msg.textContent = "Still needs " + missing.join(", ") + ".";
+    out.hidden = copyBtn.hidden = true; return;
+  }
+  if(raw && !isAllowed(raw)){
+    msg.className = "msg bad";
+    msg.textContent = "That host is not on the allowlist, so the entry would be rejected. Add it to ALLOWED if you trust it, or leave the field blank for now.";
+    out.hidden = copyBtn.hidden = true; return;
+  }
+  const yt = raw ? parseYouTube(raw) : {id:"", start:0};
+
+  const entry = {
+    source:{title:g("f-title"), kind:g("f-kind"), detail:g("f-detail")},
+    media:{videoId:yt.id, start:yt.start},
+    module:g("f-module") || areaLabel(concepts[0].area),
+    surface:g("f-surface"), prompt:g("f-prompt"), concepts,
+    tags:g("f-tags").split(",").map(s=>s.trim()).filter(Boolean)
+  };
+  if(g("f-note")) entry.note = g("f-note");
+
+  out.textContent = JSON.stringify(entry, null, 2) + ",";
+  out.hidden = copyBtn.hidden = false;
+  msg.className = "msg ok";
+  msg.textContent = yt.id
+    ? "Accepted. Video " + yt.id + (yt.start ? " starting at " + mmss(yt.start) : "") + ". Paste this into the ENTRIES list."
+    : "Built without a clip. It will show 'No verified clip yet' until you add one.";
+});
+document.getElementById("copy-out").addEventListener("click", async e => {
+  try{ await navigator.clipboard.writeText(document.getElementById("out").textContent);
+       e.target.textContent = "Copied"; }
+  catch(err){ e.target.textContent = "Copy failed"; }
+  setTimeout(() => { e.target.textContent = "Copy entry"; }, 1400);
+});
