@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tuned In — what your mind is doing while you watch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,800;1,9..144,400&family=Archivo:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ground:#DCDDD8; --surface:#F7F7F4; --surface-2:#E9E9E3; --slate:#20263A;
+    --ink:#191F33; --ink-soft:#5A6076; --rule:#C2C4BC;
+    --blue:#3F4E9E; --gold:#A97C10; --rose:#A8455F;
+    --display:'Fraunces',Georgia,serif;
+    --body:'Archivo',system-ui,-apple-system,sans-serif;
+    --mono:'JetBrains Mono',ui-monospace,monospace;
+    --maxw:76rem;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 1.25rem}
+  a{color:var(--blue)}
+  button{font:inherit;cursor:pointer}
+  :focus-visible{outline:2.5px solid var(--blue);outline-offset:2px;border-radius:2px}
+  img{max-width:100%;display:block}
+
+  header.mast{padding:2.25rem 0 1.25rem}
+  .mast-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:2rem;flex-wrap:wrap}
+  .logo{font-family:var(--display);font-weight:800;font-size:clamp(2.1rem,5vw,3.1rem);line-height:.95;
+        letter-spacing:-.025em;margin:0;font-variation-settings:'SOFT' 40,'WONK' 1}
+  .logo em{font-style:italic;font-weight:400;font-size:.4em;display:block;color:var(--blue);
+           letter-spacing:0;margin-top:.35rem;font-variation-settings:'SOFT' 0}
+  .kicker{font-family:var(--mono);font-size:.66rem;letter-spacing:.16em;text-transform:uppercase;
+          color:var(--ink-soft);margin:0 0 .6rem}
+
+  .mode{border:1px solid var(--ink);border-radius:3px;padding:.25rem;display:inline-flex;background:var(--surface)}
+  .mode button{background:none;border:0;border-radius:2px;padding:.4rem .8rem;font-family:var(--mono);
+               font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+  .mode button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+  .mode-note{font-size:.78rem;color:var(--ink-soft);margin:.4rem 0 0;max-width:19rem;text-align:right}
+  @media (max-width:700px){ .mode-note{text-align:left} }
+
+  nav.views{position:sticky;top:0;z-index:30;background:var(--ground);border-top:1px solid var(--rule);
+            border-bottom:1px solid var(--rule);padding:.55rem 0}
+  .views-inner{display:flex;gap:.35rem;flex-wrap:wrap}
+  .tab{background:none;border:1px solid transparent;border-radius:99px;padding:.38rem .8rem;
+       font-family:var(--mono);font-size:.7rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+  .tab:hover{color:var(--ink);border-color:var(--rule)}
+  .tab[aria-current="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+
+  main{padding:1.75rem 0 5rem}
+  .view[hidden]{display:none}
+  h2.sec{font-family:var(--display);font-weight:600;font-size:1.5rem;letter-spacing:-.015em;margin:0 0 .3rem}
+  .sec-note{color:var(--ink-soft);margin:0 0 1.5rem;max-width:44rem;font-size:.94rem}
+
+  .filters{display:flex;flex-direction:column;gap:.85rem;margin-bottom:1.75rem}
+  .search{width:100%;max-width:26rem;padding:.6rem .85rem;border:1px solid var(--rule);border-radius:3px;
+          background:var(--surface);color:var(--ink);font-size:.95rem;font-family:var(--body)}
+  .chips{display:flex;gap:.35rem;flex-wrap:wrap}
+  .chip{background:var(--surface);border:1px solid var(--rule);border-radius:99px;padding:.3rem .75rem;
+        font-size:.8rem;color:var(--ink-soft)}
+  .chip:hover{border-color:var(--ink-soft);color:var(--ink)}
+  .chip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--surface)}
+  .count{font-family:var(--mono);font-size:.7rem;color:var(--ink-soft);letter-spacing:.06em;margin:0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(20.5rem,1fr));gap:1.25rem;align-items:start}
+  .card{background:var(--surface);border:1px solid var(--rule);border-radius:4px;overflow:hidden;
+        display:flex;flex-direction:column}
+  .card:hover{border-color:var(--ink-soft)}
+  .stage{width:100%;aspect-ratio:16/9;background:var(--slate);position:relative;overflow:hidden}
+  .stage iframe{width:100%;height:100%;border:0;display:block}
+  .facade{position:absolute;inset:0;border:0;padding:0;background:none;width:100%;height:100%;cursor:pointer}
+  .facade img{width:100%;height:100%;object-fit:cover}
+  .facade::after{content:"";position:absolute;inset:0;background:rgba(25,31,51,.3);transition:background .2s}
+  .facade:hover::after{background:rgba(25,31,51,.06)}
+  .play{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:2;
+        background:var(--surface);color:var(--ink);border-radius:99px;padding:.5rem 1rem;
+        font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;
+        box-shadow:0 2px 14px rgba(25,31,51,.35);white-space:nowrap}
+  .noclip{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
+          padding:1.1rem;color:#B9BECE;font-size:.85rem;gap:.4rem}
+  .noclip strong{font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:#D98C9F}
+  .advisory{background:#F0DDE2;border-bottom:1px solid #DEBFC8;padding:.45rem .95rem;font-size:.78rem;color:#7A2E42}
+  .advisory b{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+
+  .body{padding:1rem 1.1rem 1.1rem;display:flex;flex-direction:column;flex:1}
+  .source{margin:0 0 .55rem;font-size:.82rem;color:var(--ink-soft)}
+  .source b{font-family:var(--display);font-weight:600;font-size:1.08rem;color:var(--ink);display:block;
+            letter-spacing:-.01em;line-height:1.2;margin-bottom:.15rem}
+  .surface-txt{margin:0 0 .9rem;font-size:.93rem}
+  .prompt{margin:0 0 .9rem;font-size:.9rem;font-style:italic;color:var(--blue);
+          border-left:2px solid var(--blue);padding-left:.7rem}
+  .divider{font-family:var(--mono);font-size:.62rem;letter-spacing:.13em;text-transform:uppercase;
+           color:var(--ink-soft);border-top:1px solid var(--rule);padding-top:.7rem;margin:.2rem 0 .8rem}
+
+  .concepts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9rem}
+  .concepts li{display:grid;grid-template-columns:1.35rem 1fr;gap:.6rem}
+  .num{font-family:var(--mono);font-size:.66rem;color:#fff;border-radius:2px;text-align:center;
+       height:1.35rem;line-height:1.35rem}
+  .num.accurate{background:var(--blue)} .num.overstated{background:var(--gold)} .num.myth{background:var(--rose)}
+  .cname{font-family:var(--display);font-weight:600;font-size:1rem;line-height:1.25;margin:0 0 .12rem}
+  .cmeta{font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;
+         color:var(--ink-soft);margin:0 0 .3rem}
+  .cmeta .v.accurate{color:var(--blue)} .cmeta .v.overstated{color:var(--gold)} .cmeta .v.myth{color:var(--rose)}
+  .cexp{margin:0;font-size:.89rem;color:#2C3348}
+
+  .reveal-wrap{margin-top:.1rem;margin-bottom:.3rem}
+  .reveal{background:none;border:1px solid var(--ink);border-radius:2px;padding:.45rem .8rem;
+          font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink)}
+  .reveal:hover{background:var(--ink);color:var(--surface)}
+  .hidden-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
+  .hidden-panel > div{overflow:hidden}
+  .card[data-open="true"] .hidden-panel{grid-template-rows:1fr}
+  .foot{margin-top:auto;padding-top:.85rem}
+  .tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:0}
+  .tag{font-family:var(--mono);font-size:.6rem;color:var(--ink-soft)}
+  .tag::before{content:"#"}
+
+  .empty{border:1px dashed var(--rule);border-radius:4px;padding:2.5rem 1.5rem;text-align:center;color:var(--ink-soft)}
+
+  .stage-one{max-width:34rem;margin:0 auto}
+  .explore-controls{display:flex;justify-content:center;gap:.6rem;margin-top:1.25rem;flex-wrap:wrap}
+  .btn{background:var(--ink);color:var(--surface);border:1px solid var(--ink);border-radius:2px;
+       padding:.55rem 1.05rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+  .btn:hover{background:var(--blue);border-color:var(--blue)}
+  .btn.ghost{background:none;color:var(--ink)}
+  .btn.ghost:hover{background:var(--ink);color:var(--surface)}
+
+  .module{margin-bottom:2.25rem}
+  .module h3{font-family:var(--display);font-weight:600;font-size:1.12rem;margin:0}
+  .mcount{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);margin:.1rem 0 0}
+  .rows{border-top:1px solid var(--rule);margin-top:.7rem}
+  .row{display:grid;grid-template-columns:1fr auto;gap:.6rem 1rem;align-items:start;padding:.8rem 0;border-bottom:1px solid var(--rule)}
+  .row-main strong{font-weight:600;font-size:.95rem}
+  .row-main .clist{color:var(--ink-soft);font-size:.84rem;display:block;margin-top:.1rem}
+  @media (max-width:640px){ .row{grid-template-columns:1fr} }
+
+  .form{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;max-width:52rem}
+  .field{display:flex;flex-direction:column;gap:.25rem}
+  .field.wide{grid-column:1/-1}
+  label{font-family:var(--mono);font-size:.64rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft)}
+  input,select,textarea{font-family:var(--body);font-size:.92rem;padding:.5rem .65rem;border:1px solid var(--rule);
+    border-radius:3px;background:var(--surface);color:var(--ink)}
+  textarea{resize:vertical;min-height:4.2rem}
+  @media (max-width:640px){ .form{grid-template-columns:1fr} }
+  #cblocks{grid-column:1/-1;display:flex;flex-direction:column;gap:.9rem}
+  fieldset.cblock{border:1px solid var(--rule);border-radius:3px;padding:.85rem;margin:0;
+                  display:grid;grid-template-columns:1fr 1fr;gap:.9rem;background:var(--surface-2)}
+  fieldset.cblock legend{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);padding:0 .3rem}
+  fieldset.cblock .full{grid-column:1/-1}
+  @media (max-width:640px){ fieldset.cblock{grid-template-columns:1fr} }
+  .row-btns{grid-column:1/-1;display:flex;gap:.5rem;flex-wrap:wrap}
+  .allow{font-size:.85rem;color:var(--ink-soft);margin:.3rem 0 1.4rem;max-width:52rem}
+  .allow code{font-family:var(--mono);font-size:.76rem;background:var(--surface);padding:.1rem .3rem;border-radius:2px}
+  .msg{font-size:.85rem;margin:.75rem 0 0}
+  .msg.bad{color:var(--rose)} .msg.ok{color:var(--blue)}
+  pre.out{background:var(--slate);color:#DDE0EA;font-family:var(--mono);font-size:.74rem;line-height:1.6;
+          padding:1rem;border-radius:4px;overflow:auto;max-width:52rem;margin:1rem 0 .7rem}
+  footer{border-top:1px solid var(--rule);padding:1.6rem 0 3rem;color:var(--ink-soft);font-size:.83rem}
+  footer p{max-width:52rem}
+
+  @media (prefers-reduced-motion:reduce){ .hidden-panel{transition:none} }
+</style>
+</head>
+<body>
+
+<header class="mast">
+  <div class="wrap mast-inner">
+    <div>
+      <p class="kicker">A teaching collection &middot; cognitive psychology</p>
+      <h1 class="logo">Tuned In<em>what your mind is doing while you watch</em></h1>
+    </div>
+    <div>
+      <div class="mode" role="group" aria-label="Display mode">
+        <button data-mode="reference" aria-pressed="true">Reference</button>
+        <button data-mode="class" aria-pressed="false">Class</button>
+      </div>
+      <p class="mode-note" id="mode-note">Explanations shown with every clip.</p>
+    </div>
+  </div>
+</header>
+
+<nav class="views" aria-label="Views">
+  <div class="wrap views-inner">
+    <button class="tab" data-view="explore" aria-current="true">Explore</button>
+    <button class="tab" data-view="browse">Browse all</button>
+    <button class="tab" data-view="syllabus">By course unit</button>
+    <button class="tab" data-view="add">Add a clip</button>
+  </div>
+</nav>
+
+<main class="wrap">
+
+  <section class="view" id="view-explore">
+    <h2 class="sec">Start here</h2>
+    <p class="sec-note">One clip at a time, drawn at random. Watch it, then read what your mind was doing while you did.</p>
+    <div class="stage-one" id="explore-stage"></div>
+    <div class="explore-controls">
+      <button class="btn" id="next">Another clip</button>
+      <button class="btn ghost" id="to-browse">See all of them</button>
+    </div>
+  </section>
+
+  <section class="view" id="view-browse" hidden>
+    <h2 class="sec">The whole collection</h2>
+    <p class="sec-note">Filter by area of study, or search a concept, a show, or a phrase you half-remember.</p>
+    <div class="filters">
+      <input type="search" class="search" id="q" placeholder="Search concepts, shows, phrases&hellip;" aria-label="Search clips">
+      <div class="chips" id="area-chips" role="group" aria-label="Filter by area"></div>
+      <div class="chips" id="verdict-chips" role="group" aria-label="Filter by verdict"></div>
+      <p class="count" id="count"></p>
+    </div>
+    <div class="grid" id="grid"></div>
+    <div class="empty" id="empty" hidden>
+      <p>No clips match that. Clear a filter or search a different concept.</p>
+      <button class="btn ghost" id="clear">Clear all filters</button>
+    </div>
+  </section>
+
+  <section class="view" id="view-syllabus" hidden>
+    <h2 class="sec">By course unit</h2>
+    <p class="sec-note">Grouped the way a course tends to run. Copy any line straight into a slide or an assignment.</p>
+    <div id="modules"></div>
+  </section>
+
+  <section class="view" id="view-add" hidden>
+    <h2 class="sec">Add a clip</h2>
+    <p class="sec-note">Fill this in and it hands back a finished entry to paste into your data file. Nothing is sent anywhere.</p>
+    <p class="allow"><strong>Links are checked against an allowlist before an entry is accepted</strong>, so a visitor can never be sent somewhere unvetted. Currently permitted: <code>youtube.com</code> <code>youtu.be</code> <code>vimeo.com</code> <code>ted.com</code> <code>pbs.org</code> <code>bbc.co.uk</code> <code>npr.org</code> <code>archive.org</code> and any <code>.edu</code> host. Paste a full YouTube address and the video and its start time get pulled out for you. Leave it blank if you have not found a good copy yet &mdash; the clip still gets a card.</p>
+
+    <div class="form" id="form">
+      <div class="field wide"><label for="f-url">Paste the clip address (optional)</label><input id="f-url" placeholder="https://www.youtube.com/watch?v=…&amp;t=84s"></div>
+      <div class="field"><label for="f-title">Source title</label><input id="f-title" placeholder="The Office (US)"></div>
+      <div class="field"><label for="f-kind">Format</label><input id="f-kind" placeholder="Television comedy"></div>
+      <div class="field wide"><label for="f-detail">Where in it</label><input id="f-detail" placeholder="Michael follows the satnav into a lake"></div>
+      <div class="field"><label for="f-module">Course unit</label><input id="f-module" list="modlist" placeholder="Judgment &amp; decision making"><datalist id="modlist"></datalist></div>
+      <div class="field"><label for="f-note">Content note (blank if none)</label><input id="f-note" placeholder="Distressing material"></div>
+      <div class="field wide"><label for="f-surface">What you see happen</label><textarea id="f-surface" placeholder="Describe it without naming any concept. In Class mode this is all students get."></textarea></div>
+      <div class="field wide"><label for="f-prompt">Discussion prompt for Class mode</label><input id="f-prompt" placeholder="What is going wrong here, and whose fault is it?"></div>
+      <div id="cblocks"></div>
+      <div class="row-btns">
+        <button class="btn ghost" id="add-concept">Add another concept</button>
+        <button class="btn" id="make">Build the entry</button>
+      </div>
+      <div class="field wide"><label for="f-tags">Tags, comma separated</label><input id="f-tags" placeholder="funny, the office, technology"></div>
+    </div>
+    <p class="msg" id="form-msg"></p>
+    <pre class="out" id="out" hidden></pre>
+    <button class="btn ghost" id="copy-out" hidden>Copy entry</button>
+  </section>
+
+</main>
+
+<footer class="wrap">
+  <p>Clips play through each platform's own player and are never rehosted, so every view is counted for the rights holder. Players load only when you press play, so no third party is contacted before that. Every card carries enough description to be found again if its link ever dies.</p>
+</footer>
+
+<script>
+/* ==========================================================================
+   CONTENT — the only part you edit routinely.
+   Each entry is one piece of media that may demonstrate several concepts.
+     media.videoId  YouTube id, or "" if not sourced yet
+     media.start    seconds to begin at, or 0
+     surface        what a viewer sees; must not name any concept
+     prompt         the question to put to a class before revealing
+     concepts[]     one or more: name / area / verdict / explanation
+     verdict        "accurate" | "overstated" | "myth"
+     note           content advisory, shown above the player
+   ========================================================================== */
+
+const AREAS = [
+  ["perception","Perception"], ["attention","Attention"], ["memory","Memory"],
+  ["jdm","Judgment & decision making"], ["social","Social cognition"], ["meta","Metacognition & myths"]
+];
+
+const ALLOWED = ["youtube.com","www.youtube.com","youtu.be","youtube-nocookie.com",
+  "www.youtube-nocookie.com","vimeo.com","www.vimeo.com","player.vimeo.com","ted.com","www.ted.com",
+  "pbs.org","www.pbs.org","bbc.co.uk","www.bbc.co.uk","npr.org","www.npr.org","archive.org","www.archive.org"];
+
+const ENTRIES = [
+
+/* ---------- clips sourced and verified ---------- */
+{
+  source:{title:"Selective attention test", kind:"Web video, Daniel Simons", detail:"The original awareness test, 1999"},
+  media:{videoId:"vJG698U2Mvo", start:0}, module:"Attention",
+  surface:"You are asked to count how many passes the players in white make. You count carefully. You get the number right.",
+  prompt:"Did everyone get the same count? And did anyone see anything else?",
+  concepts:[
+    {name:"Inattentional blindness", area:"attention", verdict:"accurate",
+     explanation:"Roughly half of viewers do not see the gorilla walk into frame, beat its chest and leave. Not blurred, not dim — absent. Committing attention to the counting task leaves it unprocessed at the level awareness requires."},
+    {name:"Naive realism about our own perception", area:"meta", verdict:"accurate",
+     explanation:"The second finding is the reaction. People who missed it are certain no gorilla was there and often accuse the presenter of swapping videos. We have no felt sense of what we failed to process, so not noticing feels identical to nothing being there."}
+  ],
+  tags:["classic","funny","attention"]
+},
+{
+  source:{title:"Try the McGurk effect", kind:"Television documentary, BBC Two", detail:"Horizon: Is Seeing Believing?"},
+  media:{videoId:"G-lN8vWm3m0", start:0}, module:"Sensation & perception",
+  surface:"A man repeats one syllable over and over. Watch his mouth and you clearly hear one sound. Close your eyes and you clearly hear a different one. Open them and it changes straight back.",
+  prompt:"Try it with your eyes shut, then open. Which sense is lying, and how would you tell?",
+  concepts:[
+    {name:"Audiovisual integration in speech", area:"perception", verdict:"accurate",
+     explanation:"Speech perception fuses lip movement with sound. The audio never changes; the mouth does, and your ears report the merged result. Hearing is not a separate channel that happens to sit near your eyes."},
+    {name:"Cognitive impenetrability", area:"perception", verdict:"accurate",
+     explanation:"Knowing exactly how the trick works does not switch it off. Some perceptual processes run below the reach of belief — a much stronger claim than 'illusions are fun', and the best ninety-second demonstration of it available."}
+  ],
+  tags:["classic","unbreakable","speech"]
+},
+{
+  source:{title:"The Colour Changing Card Trick", kind:"Web video, Richard Wiseman", detail:"Quirkology, filmed in a single take"},
+  media:{videoId:"v3iPrBrGSJM", start:0}, module:"Attention",
+  surface:"A magician invites you to watch a card closely, then reveals how the trick was done. Then he points out everything else that happened while you were watching the card.",
+  prompt:"Before the reveal: how much of that room could you describe from memory?",
+  concepts:[
+    {name:"Change blindness", area:"attention", verdict:"accurate",
+     explanation:"The tablecloth, the backdrop and both performers' clothing change colour mid-shot, in one continuous take, and almost nobody notices. Without attention pointed at an object, a change to it generates no signal at all."},
+    {name:"Misdirection as applied attention research", area:"attention", verdict:"accurate",
+     explanation:"Stage magic worked this out centuries before psychology did. The instruction to watch the card is the entire method: attention is a budget, and a magician's job is to get you to spend it somewhere convenient."}
+  ],
+  tags:["classic","funny","magic"]
+},
+
+/* ---------- described, awaiting a verified clip ---------- */
+{
+  source:{title:"The Dress", kind:"Viral photograph, 2015", detail:"The original post and the week that followed"},
+  media:{videoId:"", start:0}, module:"Sensation & perception",
+  surface:"A photo of a dress splits the internet in half. One group sees blue and black, the other white and gold, and neither can believe the other is being serious.",
+  prompt:"Take a show of hands. Then ask the two camps to convince each other.",
+  concepts:[
+    {name:"Colour constancy", area:"perception", verdict:"accurate",
+     explanation:"Your visual system never reports raw wavelength. It silently guesses the light source and subtracts it. Assume shadow and you subtract blue, leaving white and gold; assume warm indoor light and you subtract yellow, leaving blue and black. Same photo, different unconscious assumption."},
+    {name:"Naive realism", area:"social", verdict:"accurate",
+     explanation:"The argument was more interesting than the illusion. Each side assumed the other was lying, because we treat our own perception as a neutral window rather than one construction among several. That assumption does a lot of work in disagreements far less trivial than this."}
+  ],
+  tags:["viral","classic","illumination"]
+},
+{
+  source:{title:"Yanny or Laurel", kind:"Viral audio clip, 2018", detail:"The original, plus the pitch-shifted versions"},
+  media:{videoId:"", start:0}, module:"Sensation & perception",
+  surface:"One short recording. Half the room hears one name, half hears a completely different one, and reading the other word on screen can make yours switch mid-listen.",
+  prompt:"Which did you hear first? Now look at the other word and listen again.",
+  concepts:[
+    {name:"Perceptual ambiguity", area:"perception", verdict:"accurate",
+     explanation:"The acoustic energy genuinely supports both readings. Which one you get depends on how much high-frequency information reaches you, which varies with your age and your speakers. There is no fact of the matter to be right about."},
+    {name:"Top-down expectation", area:"perception", verdict:"accurate",
+     explanation:"Show someone the written word and their hearing often flips to match. Perception uses prior expectation to resolve ambiguity, so what you expect becomes part of what you sense rather than what you conclude afterwards."}
+  ],
+  tags:["viral","audio","expectation"]
+},
+{
+  source:{title:"Transport for London awareness advert", kind:"Public safety advert", detail:"Count the passes; watch for the bear"},
+  media:{videoId:"", start:0}, module:"Attention",
+  surface:"Another counting task. This time a person in a bear costume moonwalks through the middle of the shot.",
+  prompt:"The tagline is about drivers and cyclists. Does the demonstration actually support it?",
+  concepts:[
+    {name:"Inattentional blindness in the wild", area:"attention", verdict:"accurate",
+     explanation:"The same effect as the gorilla, repurposed as road safety messaging: a driver scanning for cars can genuinely fail to see a cyclist, because looking and seeing come apart. Useful for arguing about how far a lab finding should be pushed into policy."}
+  ],
+  tags:["road safety","funny","applied"]
+},
+{
+  source:{title:"Sherlock", kind:"Television drama, BBC", detail:"The mind palace sequences"},
+  media:{videoId:"", start:0}, module:"Memory",
+  surface:"Sherlock closes his eyes, walks through an imagined building, and retrieves an exact fact from the room where he left it.",
+  prompt:"Is this a real technique, an invented one, or a real one filmed dishonestly?",
+  concepts:[
+    {name:"Method of loci", area:"memory", verdict:"overstated",
+     explanation:"Real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What the show exaggerates is speed and reliability — a usable palace takes weeks of practice."},
+    {name:"Elaborative encoding", area:"memory", verdict:"accurate",
+     explanation:"Why it works is the part worth teaching. Spatial memory is unusually durable, so turning a flat list into a route through a place you already know gives each item several retrieval paths instead of one. This generalises directly to how students should be studying."}
+  ],
+  tags:["technique","study skills","television"]
+},
+{
+  source:{title:"'Luke, I am your father'", kind:"Film quote and its afterlife", detail:"Also the Berenstain Bears and the Monopoly man's monocle"},
+  media:{videoId:"", start:0}, module:"Memory",
+  surface:"Enormous numbers of people vividly remember a line that was never said. The actual line is 'No, I am your father.' The Monopoly man has never worn a monocle. Comment sections will fight you on both.",
+  prompt:"Everyone write down the line as you remember it, before anybody speaks.",
+  concepts:[
+    {name:"Reconstructive memory", area:"memory", verdict:"myth",
+     explanation:"Memory is rebuilt each time from gist plus expectation, not stored and replayed. 'Luke' makes the line intelligible out of context, so it gets inserted on the way out."},
+    {name:"Schema-driven intrusion", area:"memory", verdict:"accurate",
+     explanation:"A monocle fits the top-hat-and-cane schema, so it grows into the memory of an image most people have seen hundreds of times. Whatever fits the pattern gets filled in silently."},
+    {name:"Confidence-accuracy dissociation", area:"meta", verdict:"accurate",
+     explanation:"Everyone is certain, and certainty is spread evenly across the correct and incorrect answers. The friendliest possible route to a point that matters enormously in the eyewitness card."}
+  ],
+  tags:["funny","viral","false memory"]
+},
+{
+  source:{title:"Memento", kind:"Film, 2000", detail:"Leonard's tattoos and Polaroids"},
+  media:{videoId:"", start:0}, module:"Memory",
+  surface:"A man cannot form new memories. He keeps his life in tattoos, photographs and notes, and the film's reversed structure puts you in his position.",
+  prompt:"List everything the film gets right before listing what it gets wrong.",
+  concepts:[
+    {name:"Anterograde amnesia", area:"memory", verdict:"accurate",
+     explanation:"Unusually faithful. Memories from before the injury survive, new facts and events do not stick, and the deficit is specific rather than a general loss of intelligence."},
+    {name:"Procedural and declarative memory dissociate", area:"memory", verdict:"accurate",
+     explanation:"He still improves at things through repetition while being unable to remember practising. Two separate systems, and damage to one leaves the other intact — the single most surprising fact about memory for most students."}
+  ],
+  tags:["film","accurate","serious"]
+},
+{
+  source:{title:"50 First Dates and Finding Nemo", kind:"Films", detail:"Lucy's overnight reset; Dory's 'short term memory loss'"},
+  media:{videoId:"", start:0}, module:"Memory",
+  surface:"One character's memory wipes clean every night at midnight. Another forgets a new friend within the same conversation and calls it short-term memory loss.",
+  prompt:"Both are wrong, but wrong in different ways. Which is which?",
+  concepts:[
+    {name:"Short-term memory is seconds, not a day", area:"memory", verdict:"myth",
+     explanation:"Short-term memory holds a handful of items for seconds. Neither character's problem is that, and in film the phrase almost always means something else entirely."},
+    {name:"Failure of consolidation", area:"memory", verdict:"myth",
+     explanation:"Dory's actual problem is the opposite of what she says — she cannot move anything into long-term storage. And real amnesia does not reset on a schedule. Students arrive believing the film version, which is exactly why correcting it sticks."}
+  ],
+  tags:["funny","film","common error"]
+},
+{
+  source:{title:"Jennifer Thompson and Ronald Cotton", kind:"News documentary", detail:"Covered by 60 Minutes and PBS Frontline"},
+  media:{videoId:"", start:0}, module:"Memory",
+  note:"Sexual assault and wrongful imprisonment.",
+  surface:"A woman identifies her attacker with total certainty. He serves eleven years. DNA later shows she named the wrong man, and that she had seen the right one during the investigation.",
+  prompt:"At what point in this process did the memory change, and could anyone have noticed?",
+  concepts:[
+    {name:"Eyewitness misidentification", area:"memory", verdict:"accurate",
+     explanation:"Each retelling and each line-up rewrites the memory slightly, and the rewritten version is what gets retrieved next time. The original is not preserved underneath."},
+    {name:"Confidence inflation", area:"memory", verdict:"accurate",
+     explanation:"Repetition and feedback raise confidence without raising accuracy, and juries weigh confidence heavily. This is the case that makes the stakes of the Mandela effect card concrete, and it is not funny."}
+  ],
+  tags:["serious","legal","misinformation effect"]
+},
+{
+  source:{title:"Pawn Stars / Storage Wars", kind:"Reality television", detail:"Effectively any negotiation segment"},
+  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"Someone names a number first. Every offer that follows orbits it, including offers from people who say out loud that the first number was nonsense.",
+  prompt:"Track the numbers. Where did each one actually come from?",
+  concepts:[
+    {name:"Anchoring and adjustment", area:"jdm", verdict:"accurate",
+     explanation:"A number in play becomes the starting point for estimation, and adjustment away from it is chronically too small. These shows are anchoring laboratories that happen to have camera crews in them."},
+    {name:"Expertise does not confer immunity", area:"jdm", verdict:"accurate",
+     explanation:"The dealer knows the market, knows the tactic, and still lands closer to the opening number than to his own independent valuation. Pairs well with the finding that estate agents anchor on list price even when told to ignore it."}
+  ],
+  tags:["negotiation","reality tv","classic"]
+},
+{
+  source:{title:"Post-game punditry", kind:"Live broadcast", detail:"Any panel discussing a fourth-quarter decision"},
+  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"A call the same panel described as reasonable before kickoff is, ninety minutes later, obviously indefensible and something anyone could have seen coming.",
+  prompt:"Find the pre-game tape. Is the panel contradicting itself, or reasoning normally?",
+  concepts:[
+    {name:"Hindsight bias", area:"jdm", verdict:"accurate",
+     explanation:"Learning an outcome quietly rewrites your memory of how uncertain you were beforehand. The alternatives become hard to reach, so the result feels like it was always the likely one."},
+    {name:"Outcome bias", area:"jdm", verdict:"accurate",
+     explanation:"A separate error stacked on the first: judging the quality of a decision by how it turned out rather than by what was known when it was made. The distinction matters wherever decisions get audited, from medicine to hiring."}
+  ],
+  tags:["funny","sport"]
+},
+{
+  source:{title:"21", kind:"Film, 2008", detail:"The classroom scene"},
+  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"A professor poses the three-door game show puzzle to a lecture hall. Switching doors doubles your chances, and almost nobody believes it the first time.",
+  prompt:"Argue for staying. Then identify exactly which step of that argument fails.",
+  concepts:[
+    {name:"Conditional probability", area:"jdm", verdict:"accurate",
+     explanation:"The host knows where the prize is and will never open that door, so his choice carries information. Your original door keeps its one-in-three; the remaining door inherits everything else. The scene's maths is right."},
+    {name:"Resistance to correct answers", area:"meta", verdict:"accurate",
+     explanation:"The more interesting half is the audience. Professional mathematicians publicly refused this result for years. An intuition that feels like understanding is very hard to dislodge with a proof — a teaching problem as much as a psychology finding."}
+  ],
+  tags:["film","probability","classic"]
+},
+{
+  source:{title:"The Office (US)", kind:"Television comedy", detail:"Michael follows the satnav into a lake"},
+  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"The navigation system says turn right. Dwight is shouting that there is a lake there. Michael turns right into the lake.",
+  prompt:"Written in 2007. What is the 2026 version of this?",
+  concepts:[
+    {name:"Automation bias", area:"jdm", verdict:"accurate",
+     explanation:"When a system is usually right, people stop treating its output as evidence to be weighed and start treating it as an instruction. Direct visual contradiction loses. Thirty seconds that now does more work than any slide on deferring to algorithms."}
+  ],
+  tags:["funny","the office","technology"]
+},
+{
+  source:{title:"The Office (US)", kind:"Television comedy", detail:"'I declare bankruptcy!'"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"Michael walks into the room and shouts that he declares bankruptcy. Oscar explains that you cannot simply say the word, there is a process. Michael did not say it. He declared it.",
+  prompt:"Pick something you are confident you understand. Now explain the mechanism out loud.",
+  concepts:[
+    {name:"Illusion of explanatory depth", area:"meta", verdict:"accurate",
+     explanation:"Knowing a label produces a strong feeling of understanding the thing it names. Ask people to explain how a zip, a flush toilet or a tariff actually works and their confidence collapses mid-sentence. Michael is the comic version of an effect that shows up in surveys on policies people hold firm views about."}
+  ],
+  tags:["funny","the office","overconfidence"]
+},
+{
+  source:{title:"Charades, and its talk-show version", kind:"Party game", detail:"Any round where the clue-giver gets angry"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"One player is doing something they consider blindingly obvious. Their partner has no idea. The clue-giver becomes genuinely furious, which is the funniest part.",
+  prompt:"Why is the anger the interesting bit rather than the failure?",
+  concepts:[
+    {name:"Curse of knowledge", area:"meta", verdict:"accurate",
+     explanation:"Once you know something you cannot properly simulate not knowing it. Your own knowledge leaks into your model of the other person, so you systematically overestimate how clear you are being."},
+    {name:"Illusion of transparency", area:"social", verdict:"accurate",
+     explanation:"You also overestimate how visible your intentions are from outside. The gesture that feels unmistakable inside your head is genuinely ambiguous from across the room — the core problem in all teaching and all technical writing."}
+  ],
+  tags:["funny","game","communication"]
+},
+{
+  source:{title:"Candid Camera", kind:"Hidden camera television", detail:"'Face the Rear' elevator segment"},
+  media:{videoId:"", start:0}, module:"Social cognition",
+  surface:"A man steps into an elevator. Everyone already inside is facing the back wall. Within seconds he turns to face the back too. When they remove their hats, he removes his.",
+  prompt:"He will never see these people again. So why did he turn?",
+  concepts:[
+    {name:"Informational conformity", area:"social", verdict:"accurate",
+     explanation:"Group behaviour is read as evidence about what the situation requires. If four people face the back, the reasonable inference is that there is a reason and you have missed it."},
+    {name:"Normative conformity", area:"social", verdict:"accurate",
+     explanation:"Separately, the cost of visible deviation feels high even among strangers. Both forces point the same way here, which is why the segment lands harder than Asch's line-judgement task does."}
+  ],
+  tags:["funny","classic","hidden camera"]
+},
+{
+  source:{title:"Le Jeu de la Mort", kind:"French television experiment, 2010", detail:"Milgram's design restaged as a game show"},
+  media:{videoId:"", start:0}, module:"Social cognition",
+  note:"Simulated infliction of pain, and audible distress.",
+  surface:"Contestants are told by a host, in front of a studio audience, to deliver escalating shocks to another contestant. A large majority continue past the point of protest.",
+  prompt:"What would have had to be different in that studio for you to stop?",
+  concepts:[
+    {name:"Obedience to authority", area:"social", verdict:"accurate",
+     explanation:"Swapping a laboratory coat for a television format did not reduce compliance; it slightly increased it. The finding is about the situation, not about the kind of person who ends up in it."},
+    {name:"Fundamental attribution error", area:"social", verdict:"accurate",
+     explanation:"Viewers reliably conclude the contestants were unusually weak people. That inference is the error the study exists to correct, and students make it in real time while watching. Handle with care: this material genuinely distresses people."}
+  ],
+  tags:["serious","obedience","television"]
+},
+{
+  source:{title:"Talent show auditions", kind:"Reality television", detail:"Any first-round rejection where the contestant is stunned"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"A contestant performs, is rejected, and reacts with total disbelief. The clip is captioned with the name of a psychology effect and shared several million times.",
+  prompt:"The caption names an effect. Is the caption right?",
+  concepts:[
+    {name:"The Dunning-Kruger effect, as popularly retold", area:"meta", verdict:"overstated",
+     explanation:"The popular version — the least able believe they are the best — overstates the original. The finding was milder and two-sided: weaker performers overestimate somewhat, while the strongest tend to underestimate. Useful precisely because it corrects a misconception students already hold confidently."},
+    {name:"Absence of feedback", area:"meta", verdict:"accurate",
+     explanation:"A likelier explanation for the specific clip. Assessing your own singing needs either good feedback or the very skill you are assessing, and friends and family systematically withhold the first. The gap is often about the environment, not the person."}
+  ],
+  tags:["funny","misconception","reality tv"]
+},
+{
+  source:{title:"Derren Brown; Penn & Teller: Fool Us", kind:"Television specials", detail:"Any personality-reading routine"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"Everyone in the room is handed a personality profile. Each person finds theirs uncannily accurate. Every profile is identical.",
+  prompt:"Read one line aloud. How many people think it came from theirs?",
+  concepts:[
+    {name:"Barnum effect", area:"meta", verdict:"accurate",
+     explanation:"Statements that apply to almost everyone feel personal when you believe they were written for you, because you supply the specifics yourself from memory."},
+    {name:"Confirmation in real time", area:"meta", verdict:"accurate",
+     explanation:"Add a reader watching your reactions and adjusting, and hits get remembered while misses get written off as the reader getting warm. Very hard to distinguish from real insight from the inside, which is the whole point."}
+  ],
+  tags:["funny","magic","gullibility"]
+},
+{
+  source:{title:"Lie to Me", kind:"Television drama", detail:"Any microexpression analysis scene"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"A consultant freezes video of a suspect's face, identifies a flicker lasting a fraction of a second, and declares the person is lying. He is always right.",
+  prompt:"How would you design a study to test whether this works?",
+  concepts:[
+    {name:"Behavioural lie detection", area:"meta", verdict:"myth",
+     explanation:"Across a large body of studies, people asked to detect deception from behaviour perform close to chance, and professional training barely moves the number. There is no reliable physical tell."},
+    {name:"Illusory correlation", area:"meta", verdict:"accurate",
+     explanation:"Why the belief survives: you notice the times a hunch was right and rarely learn about the times it was wrong, because liars you believed never correct you. The feedback needed to disconfirm the belief is structurally missing."}
+  ],
+  tags:["myth","television","deception"]
+},
+{
+  source:{title:"Lucy and Limitless", kind:"Films", detail:"The premise, stated in dialogue in both"},
+  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"A character is told humans use only a small fraction of their brain, and that unlocking the rest confers extraordinary abilities.",
+  prompt:"What observation would you have to make for this to be true?",
+  concepts:[
+    {name:"The ten percent myth", area:"meta", verdict:"myth",
+     explanation:"Wrong on every count. Imaging shows activity throughout the brain, damage to almost any region produces deficits, and no organ that metabolically expensive would be maintained unused."},
+    {name:"Why appealing myths persist", area:"meta", verdict:"accurate",
+     explanation:"The claim survives because it sells untapped potential, a more attractive story than a well-used brain with real limits. Tracking what a myth offers people is usually more informative than debunking it."}
+  ],
+  tags:["myth","film","neuroscience"]
+}
+];
+
+/* ==========================================================================
+   MACHINERY
+   ========================================================================== */
+
+const areaLabel = k => (AREAS.find(a => a[0] === k) || [k,k])[1];
+const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+let MODE = "reference";
+let uid = 0;
+
+function isAllowed(url){
+  try{ const h = new URL(url).hostname.toLowerCase();
+       return ALLOWED.includes(h) || h.endsWith(".edu"); }catch(e){ return false; }
+}
+function parseYouTube(url){
+  try{
+    const u = new URL(url);
+    let id = "";
+    if(u.hostname.includes("youtu.be")) id = u.pathname.slice(1);
+    else if(u.pathname.startsWith("/embed/")) id = u.pathname.split("/")[2];
+    else id = u.searchParams.get("v") || "";
+    let start = 0;
+    const t = u.searchParams.get("t") || u.searchParams.get("start") || u.hash.replace("#t=","");
+    if(t){
+      const m = /^(?:(\d+)m)?(?:(\d+)s?)?$/.exec(t);
+      if(m && (m[1] || m[2])) start = (parseInt(m[1]||0,10)*60) + parseInt(m[2]||0,10);
+      else start = parseInt(t,10) || 0;
+    }
+    return {id, start};
+  }catch(e){ return {id:"", start:0}; }
+}
+const mmss = s => s ? Math.floor(s/60) + ":" + String(s%60).padStart(2,"0") : "";
+
+function stageHTML(e){
+  const m = e.media || {};
+  if(m.videoId){
+    return `<div class="stage">
+      <button class="facade" data-vid="${esc(m.videoId)}" data-start="${m.start||0}"
+              aria-label="Play: ${esc(e.source.title)}">
+        <img src="https://i.ytimg.com/vi/${esc(m.videoId)}/hqdefault.jpg" alt="" loading="lazy">
+        <span class="play">Play${m.start ? " from " + mmss(m.start) : ""}</span>
+      </button></div>`;
+  }
+  return `<div class="stage"><div class="noclip">
+      <strong>No verified clip yet</strong>
+      <span>${esc(e.source.title)} &mdash; ${esc(e.source.detail)}. The description below is enough to find it.</span>
+    </div></div>`;
+}
+
+function conceptsHTML(e){
+  return `<ul class="concepts">` + e.concepts.map((c,i) => `
+    <li><span class="num ${c.verdict}">${i+1}</span>
+      <div>
+        <p class="cname">${esc(c.name)}</p>
+        <p class="cmeta">${esc(areaLabel(c.area))} &middot; <span class="v ${c.verdict}">${c.verdict}</span></p>
+        <p class="cexp">${esc(c.explanation)}</p>
+      </div></li>`).join("") + `</ul>`;
+}
+
+function cardHTML(e){
+  const id = "k" + (uid++);
+  const n = e.concepts.length;
+  const open = MODE === "reference";
+  const label = n === 1 ? "Reveal the concept" : "Reveal the " + n + " concepts";
+  return `<article class="card" id="${id}" data-open="${open}">
+    ${e.note ? `<p class="advisory"><b>Content note</b> &mdash; ${esc(e.note)}</p>` : ""}
+    ${stageHTML(e)}
+    <div class="body">
+      <p class="source"><b>${esc(e.source.title)}</b>${esc(e.source.kind)} &middot; ${esc(e.source.detail)}</p>
+      <p class="surface-txt">${esc(e.surface)}</p>
+      ${!open && e.prompt ? `<p class="prompt">${esc(e.prompt)}</p>` : ""}
+      ${!open ? `<div class="reveal-wrap"><button class="reveal" data-open="${id}">${label}</button></div>` : ""}
+      <div class="hidden-panel"><div>
+        <p class="divider">${n === 1 ? "What is going on" : n + " concepts at work here"}</p>
+        ${conceptsHTML(e)}
+      </div></div>
+      <div class="foot"><p class="tags">${e.tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</p></div>
+    </div>
+  </article>`;
+}
+
+document.addEventListener("click", async ev => {
+  const play = ev.target.closest(".facade");
+  if(play){
+    const s = parseInt(play.dataset.start,10) || 0;
+    play.closest(".stage").innerHTML =
+      `<iframe src="https://www.youtube-nocookie.com/embed/${play.dataset.vid}?autoplay=1&rel=0${s > 0 ? "&start=" + s : ""}"
+        title="Embedded clip" allow="accelerometer;autoplay;encrypted-media;picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    return;
+  }
+  const rev = ev.target.closest(".reveal");
+  if(rev){
+    document.getElementById(rev.dataset.open).dataset.open = "true";
+    rev.closest(".reveal-wrap").remove();
+    return;
+  }
+  const cp = ev.target.closest("[data-copy]");
+  if(cp){
+    try{ await navigator.clipboard.writeText(cp.dataset.copy); cp.textContent = "Copied"; }
+    catch(e){ cp.textContent = "Copy failed"; }
+    setTimeout(() => { cp.textContent = "Copy"; }, 1400);
+  }
+});
+
+document.querySelectorAll(".mode button").forEach(b => b.addEventListener("click", () => {
+  MODE = b.dataset.mode;
+  document.querySelectorAll(".mode button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  document.getElementById("mode-note").textContent = MODE === "reference"
+    ? "Explanations shown with every clip."
+    : "Clips only. Discuss first, then reveal.";
+  render(); drawOne(true);
+}));
+
+const tabs = [...document.querySelectorAll(".tab")];
+function go(v){
+  tabs.forEach(x => x.setAttribute("aria-current", String(x.dataset.view === v)));
+  ["explore","browse","syllabus","add"].forEach(k =>
+    document.getElementById("view-" + k).hidden = (k !== v));
+  window.scrollTo({top:0, behavior:"smooth"});
+}
+tabs.forEach(t => t.addEventListener("click", () => go(t.dataset.view)));
+document.getElementById("to-browse").addEventListener("click", () => go("browse"));
+
+let last = -1;
+function drawOne(keep){
+  let i = last;
+  if(!keep || last < 0){
+    do { i = Math.floor(Math.random()*ENTRIES.length); } while(ENTRIES.length > 1 && i === last);
+  }
+  last = i;
+  document.getElementById("explore-stage").innerHTML = cardHTML(ENTRIES[i]);
+}
+document.getElementById("next").addEventListener("click", () => drawOne(false));
+drawOne(false);
+
+const state = {q:"", areas:new Set(), verdicts:new Set()};
+document.getElementById("area-chips").innerHTML = AREAS.map(([k,l]) =>
+  `<button class="chip" data-area="${k}" aria-pressed="false">${l}</button>`).join("");
+document.getElementById("verdict-chips").innerHTML = ["accurate","overstated","myth"].map(v =>
+  `<button class="chip" data-verdict="${v}" aria-pressed="false">${v === "myth" ? "Gets it wrong" : v[0].toUpperCase()+v.slice(1)}</button>`).join("");
+document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
+  const key = c.dataset.area ? "areas" : "verdicts";
+  const val = c.dataset.area || c.dataset.verdict;
+  state[key].has(val) ? state[key].delete(val) : state[key].add(val);
+  c.setAttribute("aria-pressed", String(state[key].has(val)));
+  render();
+}));
+document.getElementById("q").addEventListener("input", e => {
+  state.q = e.target.value.toLowerCase().trim(); render();
+});
+document.getElementById("clear").addEventListener("click", () => {
+  state.q = ""; state.areas.clear(); state.verdicts.clear();
+  document.getElementById("q").value = "";
+  document.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed","false"));
+  render();
+});
+function matches(e){
+  if(state.areas.size && !e.concepts.some(c => state.areas.has(c.area))) return false;
+  if(state.verdicts.size && !e.concepts.some(c => state.verdicts.has(c.verdict))) return false;
+  if(!state.q) return true;
+  const hay = [e.source.title, e.source.kind, e.source.detail, e.surface, e.tags.join(" "), e.module,
+    e.concepts.map(c => c.name + " " + c.explanation).join(" ")].join(" ").toLowerCase();
+  return hay.includes(state.q);
+}
+function render(){
+  const hits = ENTRIES.filter(matches);
+  document.getElementById("grid").innerHTML = hits.map(cardHTML).join("");
+  document.getElementById("empty").hidden = hits.length > 0;
+  const total = ENTRIES.reduce((n,e) => n + e.concepts.length, 0);
+  document.getElementById("count").textContent =
+    hits.length + " of " + ENTRIES.length + " clips · " + total + " concepts in the collection";
+}
+render();
+
+const mods = [...new Set(ENTRIES.map(e => e.module))];
+document.getElementById("modlist").innerHTML = mods.map(m => `<option value="${esc(m)}">`).join("");
+document.getElementById("modules").innerHTML = mods.map(m => {
+  const list = ENTRIES.filter(e => e.module === m);
+  return `<section class="module"><h3>${esc(m)}</h3>
+    <p class="mcount">${list.length} clip${list.length>1?"s":""} &middot; ${list.reduce((n,e)=>n+e.concepts.length,0)} concepts</p>
+    <div class="rows">${list.map(e => `<div class="row">
+      <div class="row-main"><strong>${esc(e.source.title)}</strong>
+        <span class="clist">${esc(e.source.detail)} &mdash; ${e.concepts.map(c => esc(c.name)).join("; ")}</span></div>
+      <div><button class="btn ghost" data-copy="${esc(e.concepts.map(c=>c.name).join("; "))} — ${esc(e.source.title)} (${esc(e.source.detail)})">Copy</button></div>
+    </div>`).join("")}</div></section>`;
+}).join("");
+
+let cn = 0;
+function conceptBlock(){
+  cn++;
+  const d = document.createElement("fieldset");
+  d.className = "cblock";
+  d.innerHTML = `<legend>Concept ${cn}</legend>
+    <div class="field"><label>Name</label><input class="c-name" placeholder="Anchoring and adjustment"></div>
+    <div class="field"><label>Area</label><select class="c-area">${AREAS.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
+    <div class="field full"><label>Verdict</label><select class="c-verdict">
+      <option value="accurate">Accurate — shows the real thing</option>
+      <option value="overstated">Overstated — right idea, exaggerated</option>
+      <option value="myth">Myth — gets it wrong</option></select></div>
+    <div class="field full"><label>Explanation</label><textarea class="c-exp"></textarea></div>`;
+  document.getElementById("cblocks").appendChild(d);
+}
+conceptBlock();
+document.getElementById("add-concept").addEventListener("click", conceptBlock);
+
+document.getElementById("make").addEventListener("click", () => {
+  const g = id => document.getElementById(id).value.trim();
+  const msg = document.getElementById("form-msg"), out = document.getElementById("out"),
+        copyBtn = document.getElementById("copy-out");
+  const raw = g("f-url");
+
+  const concepts = [...document.querySelectorAll(".cblock")].map(b => ({
+    name: b.querySelector(".c-name").value.trim(),
+    area: b.querySelector(".c-area").value,
+    verdict: b.querySelector(".c-verdict").value,
+    explanation: b.querySelector(".c-exp").value.trim()
+  })).filter(c => c.name && c.explanation);
+
+  const missing = [];
+  if(!g("f-title")) missing.push("a source title");
+  if(!g("f-surface")) missing.push("what you see happen");
+  if(!concepts.length) missing.push("at least one concept with an explanation");
+  if(missing.length){
+    msg.className = "msg bad"; msg.textContent = "Still needs " + missing.join(", ") + ".";
+    out.hidden = copyBtn.hidden = true; return;
+  }
+  if(raw && !isAllowed(raw)){
+    msg.className = "msg bad";
+    msg.textContent = "That host is not on the allowlist, so the entry would be rejected. Add it to ALLOWED if you trust it, or leave the field blank for now.";
+    out.hidden = copyBtn.hidden = true; return;
+  }
+  const yt = raw ? parseYouTube(raw) : {id:"", start:0};
+
+  const entry = {
+    source:{title:g("f-title"), kind:g("f-kind"), detail:g("f-detail")},
+    media:{videoId:yt.id, start:yt.start},
+    module:g("f-module") || areaLabel(concepts[0].area),
+    surface:g("f-surface"), prompt:g("f-prompt"), concepts,
+    tags:g("f-tags").split(",").map(s=>s.trim()).filter(Boolean)
+  };
+  if(g("f-note")) entry.note = g("f-note");
+
+  out.textContent = JSON.stringify(entry, null, 2) + ",";
+  out.hidden = copyBtn.hidden = false;
+  msg.className = "msg ok";
+  msg.textContent = yt.id
+    ? "Accepted. Video " + yt.id + (yt.start ? " starting at " + mmss(yt.start) : "") + ". Paste this into the ENTRIES list."
+    : "Built without a clip. It will show 'No verified clip yet' until you add one.";
+});
+document.getElementById("copy-out").addEventListener("click", async e => {
+  try{ await navigator.clipboard.writeText(document.getElementById("out").textContent);
+       e.target.textContent = "Copied"; }
+  catch(err){ e.target.textContent = "Copy failed"; }
+  setTimeout(() => { e.target.textContent = "Copy entry"; }, 1400);
+});
+</script>
+</body>
+</html>
