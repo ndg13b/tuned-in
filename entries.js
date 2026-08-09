@@ -94,6 +94,19 @@ window.ENTRIES = [
   tags:["road safety","funny","applied"]
 },
 {
+  source:{title:"Key & Peele", kind:"Television sketch comedy", detail:"How Not to Remember Where You Parked Your Car"},
+  media:{kind:"youtube", videoId:"m0FMk2zUHA0", start:0}, module:"Memory",
+  surface:"Two friends park in a garage and invent a phrase so they can find the car again. The phrase works. Then they keep walking, and every turn adds another piece, until the thing they have to remember is far longer and far stranger than a parking space.",
+  prompt:"At exactly which point did this stop being worth doing?",
+  concepts:[
+    {name:"Elaborative encoding", area:"memory", verdict:"accurate",
+     explanation:"The opening move is real and it works. An arbitrary label like H5 is nearly impossible to hold, so binding it to something meaningful and vivid — a high five — gives you a retrieval path that a bare code does not have. This is the same machinery behind the method of loci, and it is what students should be doing with vocabulary lists."},
+    {name:"A cue has to cost less than what it retrieves", area:"memory", verdict:"accurate",
+     explanation:"And here is where the sketch turns into an argument. Every addition makes the cue more distinctive and also more expensive, until you are carrying an elaborate performance in order to retrieve one short fact. A mnemonic is a trade, and past a certain point you have simply exchanged one memory problem for a bigger one."}
+  ],
+  tags:["funny","sketch","study skills"]
+},
+{
   source:{title:"Sherlock", kind:"Television drama, BBC", detail:"The mind palace sequences"},
   media:{videoId:"", start:0}, module:"Memory",
   surface:"Sherlock closes his eyes, walks through an imagined building, and retrieves an exact fact from the room where he left it.",
@@ -135,21 +148,21 @@ window.ENTRIES = [
   tags:["film","accurate","serious"]
 },
 {
-  source:{title:"50 First Dates and Finding Nemo", kind:"Films", detail:"Lucy's overnight reset; Dory's 'short term memory loss'"},
-  media:{videoId:"", start:0}, module:"Memory",
-  surface:"One character's memory wipes clean every night at midnight. Another forgets a new friend within the same conversation and calls it short-term memory loss.",
-  prompt:"Both are wrong, but wrong in different ways. Which is which?",
+  source:{title:"Finding Nemo", kind:"Film, 2003", detail:"Dory introduces herself and explains her condition"},
+  media:{kind:"youtube", videoId:"mRUuIRWwOIY", start:0}, module:"Memory",
+  surface:"A fish cheerfully explains that she suffers from short-term memory loss. It runs in her family. She loses the thread of the conversation while she is still having it.",
+  prompt:"She names her own condition. Is the name right?",
   concepts:[
     {name:"Short-term memory is seconds, not a day", area:"memory", verdict:"myth",
-     explanation:"Short-term memory holds a handful of items for seconds. Neither character's problem is that, and in film the phrase almost always means something else entirely."},
+     explanation:"Short-term memory holds a handful of items for a few seconds. It is not what fails here, and on screen the phrase almost always means something else entirely. 50 First Dates makes the same mistake more grandly, with a memory that wipes clean each midnight — real amnesia does not run on a schedule."},
     {name:"Failure of consolidation", area:"memory", verdict:"myth",
-     explanation:"Dory's actual problem is the opposite of what she says — she cannot move anything into long-term storage. And real amnesia does not reset on a schedule. Students arrive believing the film version, which is exactly why correcting it sticks."}
+     explanation:"Her actual problem is close to the opposite of what she calls it: nothing new reaches long-term storage. The short-term system is working fine, which is why she can hold a sentence in mind at all. Students arrive believing the film version, which is exactly why correcting it sticks."}
   ],
   tags:["funny","film","common error"]
 },
 {
   source:{title:"Monty Python and the Holy Grail", kind:"Film, 1975", detail:"The village witch trial"},
-  media:{kind:"youtube", videoId:"ZB5ig6vpQug", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"rf71YotfykQ", start:0}, module:"Judgment & decision making",
   surface:"A village has decided a woman is a witch and would like her burned. A knight offers to settle the matter properly, and leads them through a chain of questions about wood, ducks and weight. The crowd follows every step with enthusiasm and arrives, delighted, at the conclusion it wanted before he started.",
   prompt:"The crowd cheers every step. Point at the exact step where it goes wrong.",
   concepts:[
@@ -300,9 +313,9 @@ window.ENTRIES = [
   tags:["myth","television","deception"]
 },
 {
-  source:{title:"Lucy and Limitless", kind:"Films", detail:"The premise, stated in dialogue in both"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
-  surface:"A character is told humans use only a small fraction of their brain, and that unlocking the rest confers extraordinary abilities.",
+  source:{title:"Lucy", kind:"Film, 2014", detail:"Professor Norman's lecture, stating the premise"},
+  media:{kind:"youtube", videoId:"567KlA26EwY", start:0}, module:"Metacognition & myths",
+  surface:"A professor lectures a full hall on the idea that humans use only a small fraction of their brain, and wonders aloud what unlocking the rest would allow. The film takes him entirely seriously. Limitless runs on the same premise.",
   prompt:"What observation would you have to make for this to be true?",
   concepts:[
     {name:"The ten percent myth", area:"meta", verdict:"myth",
