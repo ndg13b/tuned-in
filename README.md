@@ -63,9 +63,11 @@ These are constraints on the project, not features that happened to ship.
   source stays empty and the card renders "No verified media yet". A fabricated
   link would be worse than an empty one on a site whose promise is that its links
   are safe.
-- **No rehosting.** Clips play through the platform's own embed player, so the
-  view is counted for the rights holder. Nothing is downloaded, re-edited or
-  mirrored. Some sources forbid it outright.
+- **No rehosting.** Clips play through the platform's own embed player. Nothing
+  here is downloaded, re-edited or mirrored, and some sources forbid it
+  outright. Where a clip sits on an official channel the view reaches the rights
+  holder; some clips are other people's uploads, which buys coverage that would
+  not otherwise exist and costs some link stability.
 - **No unvetted destinations.** Every link is checked against an allowlist of
   hosts before an entry ships.
 - **No browser storage.** No `localStorage`, no cookies, nothing kept after you
