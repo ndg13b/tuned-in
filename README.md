@@ -46,20 +46,28 @@ A switch in the masthead, applying to every view.
 - **By course unit** — grouped the way a course tends to run, with a copy button
   on each line for dropping into slides or a syllabus.
 - **Add a clip** — the authoring workflow. Paste an address, and it checks the
-  host against the allowlist, pulls out the video id and start time, and hands
-  back a finished entry to paste into `entries.js`.
+  host against the allowlist, works out whether it is a video, a still or a
+  sound file, pulls out the video id and start time, and hands back a finished
+  entry to paste into `entries.js`.
+
+Not everything worth teaching is a video, so an entry's media is a YouTube clip,
+an image or an audio file. The Dress is a photograph and Yanny/Laurel is a sound
+file, and both are among the better demonstrations here. Stills are shown
+directly and need alt text; audio is not fetched until you press play.
 
 ## What this site will not do
 
 These are constraints on the project, not features that happened to ship.
 
-- **No invented links.** If a clip has not been found and verified, its
-  `videoId` stays empty and the card renders "No verified clip yet". A fabricated
+- **No invented links.** If media has not been found and verified, the entry's
+  source stays empty and the card renders "No verified media yet". A fabricated
   link would be worse than an empty one on a site whose promise is that its links
   are safe.
-- **No rehosting.** Clips play through the platform's own embed player, so the
-  view is counted for the rights holder. Nothing is downloaded, re-edited or
-  mirrored. Some sources forbid it outright.
+- **No rehosting.** Clips play through the platform's own embed player. Nothing
+  here is downloaded, re-edited or mirrored, and some sources forbid it
+  outright. Where a clip sits on an official channel the view reaches the rights
+  holder; some clips are other people's uploads, which buys coverage that would
+  not otherwise exist and costs some link stability.
 - **No unvetted destinations.** Every link is checked against an allowlist of
   hosts before an entry ships.
 - **No browser storage.** No `localStorage`, no cookies, nothing kept after you

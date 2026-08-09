@@ -1,8 +1,11 @@
 /* ==========================================================================
    CONTENT — the only part you edit routinely.
    Each entry is one piece of media that may demonstrate several concepts.
-     media.videoId  YouTube id, or "" if not sourced yet
-     media.start    seconds to begin at, or 0
+     media          one of:
+                      {kind:"youtube", videoId:"", start:0}
+                      {kind:"image",   src:"", alt:"", credit:""}
+                      {kind:"audio",   src:"", credit:""}
+                    empty means it is still in the queue; src must be on ALLOWED
      surface        what a viewer sees; must not name any concept
      prompt         the question to put to a class before revealing
      concepts[]     one or more: name / area / verdict / explanation
@@ -55,7 +58,7 @@ window.ENTRIES = [
 /* ---------- described, awaiting a verified clip ---------- */
 {
   source:{title:"The Dress", kind:"Viral photograph, 2015", detail:"The original post and the week that followed"},
-  media:{videoId:"", start:0}, module:"Sensation & perception",
+  media:{kind:"image", src:"", alt:"", credit:""}, module:"Sensation & perception",
   surface:"A photo of a dress splits the internet in half. One group sees blue and black, the other white and gold, and neither can believe the other is being serious.",
   prompt:"Take a show of hands. Then ask the two camps to convince each other.",
   concepts:[
@@ -68,7 +71,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Yanny or Laurel", kind:"Viral audio clip, 2018", detail:"The original, plus the pitch-shifted versions"},
-  media:{videoId:"", start:0}, module:"Sensation & perception",
+  media:{kind:"audio", src:"", credit:""}, module:"Sensation & perception",
   surface:"One short recording. Half the room hears one name, half hears a completely different one, and reading the other word on screen can make yours switch mid-listen.",
   prompt:"Which did you hear first? Now look at the other word and listen again.",
   concepts:[
@@ -81,7 +84,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Transport for London awareness advert", kind:"Public safety advert", detail:"Count the passes; watch for the bear"},
-  media:{videoId:"", start:0}, module:"Attention",
+  media:{kind:"youtube", videoId:"1_UuZQhlZ5k", start:0}, module:"Attention",
   surface:"Another counting task. This time a person in a bear costume moonwalks through the middle of the shot.",
   prompt:"The tagline is about drivers and cyclists. Does the demonstration actually support it?",
   concepts:[
@@ -145,18 +148,17 @@ window.ENTRIES = [
   tags:["funny","film","common error"]
 },
 {
-  source:{title:"Jennifer Thompson and Ronald Cotton", kind:"News documentary", detail:"Covered by 60 Minutes and PBS Frontline"},
-  media:{videoId:"", start:0}, module:"Memory",
-  note:"Sexual assault and wrongful imprisonment.",
-  surface:"A woman identifies her attacker with total certainty. He serves eleven years. DNA later shows she named the wrong man, and that she had seen the right one during the investigation.",
-  prompt:"At what point in this process did the memory change, and could anyone have noticed?",
+  source:{title:"Monty Python and the Holy Grail", kind:"Film, 1975", detail:"The village witch trial"},
+  media:{kind:"youtube", videoId:"ZB5ig6vpQug", start:0}, module:"Judgment & decision making",
+  surface:"A village has decided a woman is a witch and would like her burned. A knight offers to settle the matter properly, and leads them through a chain of questions about wood, ducks and weight. The crowd follows every step with enthusiasm and arrives, delighted, at the conclusion it wanted before he started.",
+  prompt:"The crowd cheers every step. Point at the exact step where it goes wrong.",
   concepts:[
-    {name:"Eyewitness misidentification", area:"memory", verdict:"accurate",
-     explanation:"Each retelling and each line-up rewrites the memory slightly, and the rewritten version is what gets retrieved next time. The original is not preserved underneath."},
-    {name:"Confidence inflation", area:"memory", verdict:"accurate",
-     explanation:"Repetition and feedback raise confidence without raising accuracy, and juries weigh confidence heavily. This is the case that makes the stakes of the Mandela effect card concrete, and it is not funny."}
+    {name:"Motivated reasoning", area:"jdm", verdict:"accurate",
+     explanation:"The verdict was fixed before the argument began, and everything between is decoration. The villagers are not reasoning badly by accident; they are working backwards from a conclusion they already hold. Notice how eagerly they accept each premise that moves them toward the fire, and imagine how fast one that didn't would be rejected."},
+    {name:"The form of an argument versus its content", area:"jdm", verdict:"accurate",
+     explanation:"Every step has the shape of logic — a question, an answer, a deduction — and the shape does all the persuading. Wood floats, ducks float, so anything weighing the same as a duck is wood, and wood burns. Written flatly it is obvious nonsense. Delivered in sequence by a confident man it is close to irresistible, which is the whole problem with judging arguments by how they feel."}
   ],
-  tags:["serious","legal","misinformation effect"]
+  tags:["funny","film","logic"]
 },
 {
   source:{title:"Pawn Stars / Storage Wars", kind:"Reality television", detail:"Effectively any negotiation segment"},
@@ -186,7 +188,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"21", kind:"Film, 2008", detail:"The classroom scene"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"8mSGNRfHSWQ", start:0}, module:"Judgment & decision making",
   surface:"A professor poses the three-door game show puzzle to a lecture hall. Switching doors doubles your chances, and almost nobody believes it the first time.",
   prompt:"Argue for staying. Then identify exactly which step of that argument fails.",
   concepts:[
@@ -199,7 +201,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Office (US)", kind:"Television comedy", detail:"Michael follows the satnav into a lake"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"_ca6KTkgViA", start:0}, module:"Judgment & decision making",
   surface:"The navigation system says turn right. Dwight is shouting that there is a lake there. Michael turns right into the lake.",
   prompt:"Written in 2007. What is the 2026 version of this?",
   concepts:[
@@ -210,7 +212,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Office (US)", kind:"Television comedy", detail:"'I declare bankruptcy!'"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  media:{kind:"youtube", videoId:"EuZeff2y32M", start:0}, module:"Metacognition & myths",
   surface:"Michael walks into the room and shouts that he declares bankruptcy. Oscar explains that you cannot simply say the word, there is a process. Michael did not say it. He declared it.",
   prompt:"Pick something you are confident you understand. Now explain the mechanism out loud.",
   concepts:[
@@ -246,18 +248,17 @@ window.ENTRIES = [
   tags:["funny","classic","hidden camera"]
 },
 {
-  source:{title:"Le Jeu de la Mort", kind:"French television experiment, 2010", detail:"Milgram's design restaged as a game show"},
-  media:{videoId:"", start:0}, module:"Social cognition",
-  note:"Simulated infliction of pain, and audible distress.",
-  surface:"Contestants are told by a host, in front of a studio audience, to deliver escalating shocks to another contestant. A large majority continue past the point of protest.",
-  prompt:"What would have had to be different in that studio for you to stop?",
+  source:{title:"The Price Is Right", kind:"Game show", detail:"Any Contestants' Row bid that lands one dollar above the previous guess"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"Four contestants guess the price of a sofa. The first says nine hundred. The next two land within fifty dollars of that. The fourth says nine hundred and one, and wins constantly.",
+  prompt:"The fourth contestant is not better at pricing sofas. What is the fourth position actually worth?",
   concepts:[
-    {name:"Obedience to authority", area:"social", verdict:"accurate",
-     explanation:"Swapping a laboratory coat for a television format did not reduce compliance; it slightly increased it. The finding is about the situation, not about the kind of person who ends up in it."},
-    {name:"Fundamental attribution error", area:"social", verdict:"accurate",
-     explanation:"Viewers reliably conclude the contestants were unusually weak people. That inference is the error the study exists to correct, and students make it in real time while watching. Handle with care: this material genuinely distresses people."}
+    {name:"Anchoring in a live setting", area:"jdm", verdict:"accurate",
+     explanation:"The first number spoken drags the rest of the row toward it, and the pull survives contestants knowing perfectly well that the opening guess was arbitrary. Adjustment away from an anchor is reliably too small, even with money on the line and an audience shouting corrections."},
+    {name:"A structural advantage nobody uses", area:"jdm", verdict:"accurate",
+     explanation:"Bidding one dollar over the highest standing guess is close to optimal from the last position, and it took decades of televised play before it became common. Knowing the right strategy and being willing to look rude while executing it are separate problems."}
   ],
-  tags:["serious","obedience","television"]
+  tags:["funny","game show","negotiation"]
 },
 {
   source:{title:"Talent show auditions", kind:"Reality television", detail:"Any first-round rejection where the contestant is stunned"},
