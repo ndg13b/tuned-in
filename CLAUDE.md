@@ -23,10 +23,16 @@ GitHub Pages.
    and verified, leave `media.videoId` as `""`. The card renders a "No verified
    clip yet" state, which doubles as the to-do queue. A fabricated link is worse
    than an empty one on a site whose whole promise is that links are safe.
-2. **Never rehost media.** Clips play through the platform's own embed player so
-   the view is counted for the rights holder. Do not download, clip, re-edit, or
-   mirror. Some sources restrict this explicitly (Richard Wiseman's Quirkology
-   videos, for example, forbid commercial use and re-editing).
+2. **Never rehost media.** Clips play through the platform's own embed player.
+   Do not download, clip, re-edit, or mirror. Some sources restrict this
+   explicitly (Richard Wiseman's Quirkology videos, for example, forbid
+   commercial use and re-editing).
+
+   Unofficial uploads are permitted, by the author's decision, because much of
+   the pop culture material exists nowhere else. Prefer an official channel when
+   one exists. The checker prints the channel for every clip, so which is which
+   stays visible, and the footer no longer claims that every view reaches the
+   rights holder, because with reuploads it does not.
 3. **Every link is checked against the `ALLOWED` host list before an entry ships.**
    A visitor must never be sent somewhere unvetted. Adding a host to the
    allowlist is a deliberate decision, not a workaround for a failing check.
