@@ -1,8 +1,11 @@
 /* ==========================================================================
    CONTENT — the only part you edit routinely.
    Each entry is one piece of media that may demonstrate several concepts.
-     media.videoId  YouTube id, or "" if not sourced yet
-     media.start    seconds to begin at, or 0
+     media          one of:
+                      {kind:"youtube", videoId:"", start:0}
+                      {kind:"image",   src:"", alt:"", credit:""}
+                      {kind:"audio",   src:"", credit:""}
+                    empty means it is still in the queue; src must be on ALLOWED
      surface        what a viewer sees; must not name any concept
      prompt         the question to put to a class before revealing
      concepts[]     one or more: name / area / verdict / explanation
@@ -81,7 +84,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Transport for London awareness advert", kind:"Public safety advert", detail:"Count the passes; watch for the bear"},
-  media:{videoId:"", start:0}, module:"Attention",
+  media:{kind:"youtube", videoId:"1_UuZQhlZ5k", start:0}, module:"Attention",
   surface:"Another counting task. This time a person in a bear costume moonwalks through the middle of the shot.",
   prompt:"The tagline is about drivers and cyclists. Does the demonstration actually support it?",
   concepts:[
@@ -145,17 +148,17 @@ window.ENTRIES = [
   tags:["funny","film","common error"]
 },
 {
-  source:{title:"The car crash study", kind:"Classroom demonstration", detail:"Loftus and Palmer, 1974, restaged in lectures ever since"},
-  media:{kind:"youtube", videoId:"", start:0}, module:"Memory",
-  surface:"Two groups watch the same short film of a traffic accident. One group is asked how fast the cars were going when they hit each other. The other is asked how fast they were going when they smashed into each other. The second group gives higher numbers, and a week later is markedly more likely to report broken glass at the scene. There was no broken glass.",
-  prompt:"Nobody was lied to and nobody was pressured. So where did the glass come from?",
+  source:{title:"Monty Python and the Holy Grail", kind:"Film, 1975", detail:"The village witch trial"},
+  media:{kind:"youtube", videoId:"ZB5ig6vpQug", start:0}, module:"Judgment & decision making",
+  surface:"A village has decided a woman is a witch and would like her burned. A knight offers to settle the matter properly, and leads them through a chain of questions about wood, ducks and weight. The crowd follows every step with enthusiasm and arrives, delighted, at the conclusion it wanted before he started.",
+  prompt:"The crowd cheers every step. Point at the exact step where it goes wrong.",
   concepts:[
-    {name:"Misinformation effect", area:"memory", verdict:"accurate",
-     explanation:"Information arriving after an event gets folded into the memory of it, and the seam does not show. One verb did the work here: 'smashed' implies a harder impact, that implication is stored alongside what was actually seen, and a week later it comes back indistinguishable from the rest."},
-    {name:"Why interview wording is regulated", area:"memory", verdict:"accurate",
-     explanation:"The practical half. If a single verb can add glass to a memory, the way a witness or a child is questioned is part of the evidence rather than a neutral way of collecting it. This is the reasoning behind the protocols now used for investigative interviews."}
+    {name:"Motivated reasoning", area:"jdm", verdict:"accurate",
+     explanation:"The verdict was fixed before the argument began, and everything between is decoration. The villagers are not reasoning badly by accident; they are working backwards from a conclusion they already hold. Notice how eagerly they accept each premise that moves them toward the fire, and imagine how fast one that didn't would be rejected."},
+    {name:"The form of an argument versus its content", area:"jdm", verdict:"accurate",
+     explanation:"Every step has the shape of logic — a question, an answer, a deduction — and the shape does all the persuading. Wood floats, ducks float, so anything weighing the same as a duck is wood, and wood burns. Written flatly it is obvious nonsense. Delivered in sequence by a confident man it is close to irresistible, which is the whole problem with judging arguments by how they feel."}
   ],
-  tags:["classic","memory","language"]
+  tags:["funny","film","logic"]
 },
 {
   source:{title:"Pawn Stars / Storage Wars", kind:"Reality television", detail:"Effectively any negotiation segment"},
@@ -185,7 +188,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"21", kind:"Film, 2008", detail:"The classroom scene"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"8mSGNRfHSWQ", start:0}, module:"Judgment & decision making",
   surface:"A professor poses the three-door game show puzzle to a lecture hall. Switching doors doubles your chances, and almost nobody believes it the first time.",
   prompt:"Argue for staying. Then identify exactly which step of that argument fails.",
   concepts:[
@@ -198,7 +201,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Office (US)", kind:"Television comedy", detail:"Michael follows the satnav into a lake"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"_ca6KTkgViA", start:0}, module:"Judgment & decision making",
   surface:"The navigation system says turn right. Dwight is shouting that there is a lake there. Michael turns right into the lake.",
   prompt:"Written in 2007. What is the 2026 version of this?",
   concepts:[
@@ -209,7 +212,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Office (US)", kind:"Television comedy", detail:"'I declare bankruptcy!'"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  media:{kind:"youtube", videoId:"EuZeff2y32M", start:0}, module:"Metacognition & myths",
   surface:"Michael walks into the room and shouts that he declares bankruptcy. Oscar explains that you cannot simply say the word, there is a process. Michael did not say it. He declared it.",
   prompt:"Pick something you are confident you understand. Now explain the mechanism out loud.",
   concepts:[
