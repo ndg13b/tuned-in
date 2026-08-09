@@ -41,18 +41,86 @@ function parseYouTube(url){
 }
 const mmss = s => s ? Math.floor(s/60) + ":" + String(s%60).padStart(2,"0") : "";
 
+/*
+ * Works out what was pasted rather than making the author pick from a menu
+ * first. Returns null when the host is allowed but the address is not
+ * recognisably a video, a still or a sound, so the form can say so instead of
+ * emitting a broken entry.
+ */
+const IMAGE_EXT = /\.(jpe?g|png|gif|webp|avif)$/i;
+const AUDIO_EXT = /\.(mp3|ogg|wav|m4a|aac|flac)$/i;
+
+function inferMedia(url, alt, credit){
+  if(!url) return {kind:"youtube", videoId:"", start:0};
+  const yt = parseYouTube(url);
+  if(yt.id) return {kind:"youtube", videoId:yt.id, start:yt.start};
+  let pathname = "";
+  try{ pathname = new URL(url).pathname; }catch(e){ return null; }
+  if(IMAGE_EXT.test(pathname)) return {kind:"image", src:url, alt:alt||"", credit:credit||""};
+  if(AUDIO_EXT.test(pathname)) return {kind:"audio", src:url, credit:credit||""};
+  return null;
+}
+
+/*
+ * Not everything worth teaching is a video. The Dress is a photograph and
+ * Yanny/Laurel is a sound file, and both are among the best demonstrations
+ * here, so media carries a kind.
+ *
+ * Entries written before kinds existed just have a videoId, which still means
+ * YouTube.
+ */
+function mediaKind(m){
+  if(!m) return "none";
+  if(m.kind) return m.kind;
+  return m.videoId ? "youtube" : "none";
+}
+
+function hasMedia(e){
+  const m = e.media || {};
+  switch(mediaKind(m)){
+    case "youtube": return Boolean(m.videoId);
+    case "image":
+    case "audio":   return Boolean(m.src) && isAllowed(m.src);
+    default:        return false;
+  }
+}
+
+function creditHTML(m){
+  return m.credit ? `<p class="credit">${esc(m.credit)}</p>` : "";
+}
+
 function stageHTML(e){
   const m = e.media || {};
-  if(m.videoId){
-    return `<div class="stage">
-      <button class="facade" data-vid="${esc(m.videoId)}" data-start="${m.start||0}"
-              aria-label="Play: ${esc(e.source.title)}">
-        <img src="https://i.ytimg.com/vi/${esc(m.videoId)}/hqdefault.jpg" alt="" loading="lazy">
-        <span class="play">Play${m.start ? " from " + mmss(m.start) : ""}</span>
-      </button></div>`;
+  switch(mediaKind(m)){
+
+    case "youtube":
+      if(!m.videoId) break;
+      return `<div class="stage">
+        <button class="facade" data-vid="${esc(m.videoId)}" data-start="${m.start||0}"
+                aria-label="Play: ${esc(e.source.title)}">
+          <img src="https://i.ytimg.com/vi/${esc(m.videoId)}/hqdefault.jpg" alt="" loading="lazy">
+          <span class="play">Play${m.start ? " from " + mmss(m.start) : ""}</span>
+        </button></div>`;
+
+    /* A still is the content rather than a preview of it, so it is shown
+       rather than hidden behind a click. alt text is required, not optional. */
+    case "image":
+      if(!m.src || !isAllowed(m.src)) break;
+      return `<div class="stage stage-image">
+        <img src="${esc(m.src)}" alt="${esc(m.alt || "")}" loading="lazy">
+      </div>${creditHTML(m)}`;
+
+    /* preload="none" keeps the click-to-load promise: nothing is fetched from
+       the audio host until someone presses play. */
+    case "audio":
+      if(!m.src || !isAllowed(m.src)) break;
+      return `<div class="stage stage-audio">
+        <audio controls preload="none" src="${esc(m.src)}"></audio>
+      </div>${creditHTML(m)}`;
   }
+
   return `<div class="stage"><div class="noclip">
-      <strong>No verified clip yet</strong>
+      <strong>No verified media yet</strong>
       <span>${esc(e.source.title)} &mdash; ${esc(e.source.detail)}. The description below is enough to find it.</span>
     </div></div>`;
 }
@@ -132,14 +200,27 @@ function go(v){
 tabs.forEach(t => t.addEventListener("click", () => go(t.dataset.view)));
 document.getElementById("to-browse").addEventListener("click", () => go("browse"));
 
-let last = -1;
+/*
+ * Explore is the front door for someone with no idea where to start, and the
+ * premise of the site is that a clip you recognise beats a definition. Drawing
+ * uniformly would hand most of those visitors a card with nothing to play,
+ * which is the worst possible introduction. So Explore draws from entries that
+ * have media, and only falls back to the whole collection if none do.
+ *
+ * Browse still shows everything. The queue is honest and useful there.
+ */
+let last = null;
 function drawOne(keep){
-  let i = last;
-  if(!keep || last < 0){
-    do { i = Math.floor(Math.random()*ENTRIES.length); } while(ENTRIES.length > 1 && i === last);
+  const playable = ENTRIES.filter(hasMedia);
+  const pool = playable.length ? playable : ENTRIES;
+  if(!pool.length) return;
+
+  let pick = last;
+  if(!keep || !pick || !pool.includes(pick)){
+    do { pick = pool[Math.floor(Math.random()*pool.length)]; } while(pool.length > 1 && pick === last);
   }
-  last = i;
-  document.getElementById("explore-stage").innerHTML = cardHTML(ENTRIES[i]);
+  last = pick;
+  document.getElementById("explore-stage").innerHTML = cardHTML(pick);
 }
 document.getElementById("next").addEventListener("click", () => drawOne(false));
 drawOne(false);
@@ -240,11 +321,21 @@ document.getElementById("make").addEventListener("click", () => {
     msg.textContent = "That host is not on the allowlist, so the entry would be rejected. Add it to ALLOWED if you trust it, or leave the field blank for now.";
     out.hidden = copyBtn.hidden = true; return;
   }
-  const yt = raw ? parseYouTube(raw) : {id:"", start:0};
+  const media = inferMedia(raw, g("f-alt"), g("f-credit"));
+  if(!media){
+    msg.className = "msg bad";
+    msg.textContent = "That host is allowed, but the address does not look like a YouTube video, an image file or an audio file. Link directly to the file, or write the media block by hand.";
+    out.hidden = copyBtn.hidden = true; return;
+  }
+  if(media.kind === "image" && media.src && !media.alt){
+    msg.className = "msg bad";
+    msg.textContent = "A still needs alt text. Describe what is in the picture for anyone who cannot see it.";
+    out.hidden = copyBtn.hidden = true; return;
+  }
 
   const entry = {
     source:{title:g("f-title"), kind:g("f-kind"), detail:g("f-detail")},
-    media:{videoId:yt.id, start:yt.start},
+    media,
     module:g("f-module") || areaLabel(concepts[0].area),
     surface:g("f-surface"), prompt:g("f-prompt"), concepts,
     tags:g("f-tags").split(",").map(s=>s.trim()).filter(Boolean)
@@ -254,9 +345,14 @@ document.getElementById("make").addEventListener("click", () => {
   out.textContent = JSON.stringify(entry, null, 2) + ",";
   out.hidden = copyBtn.hidden = false;
   msg.className = "msg ok";
-  msg.textContent = yt.id
-    ? "Accepted. Video " + yt.id + (yt.start ? " starting at " + mmss(yt.start) : "") + ". Paste this into the ENTRIES list."
-    : "Built without a clip. It will show 'No verified clip yet' until you add one.";
+  if(media.kind === "youtube" && media.videoId){
+    msg.textContent = "Accepted. Video " + media.videoId +
+      (media.start ? " starting at " + mmss(media.start) : "") + ". Paste this into the ENTRIES list.";
+  }else if(media.src){
+    msg.textContent = "Accepted as " + media.kind + ". Paste this into the ENTRIES list.";
+  }else{
+    msg.textContent = "Built without media. It will show 'No verified media yet' until you add some.";
+  }
 });
 document.getElementById("copy-out").addEventListener("click", async e => {
   try{ await navigator.clipboard.writeText(document.getElementById("out").textContent);

@@ -73,10 +73,12 @@
   <section class="view" id="view-add" hidden>
     <h2 class="sec">Add a clip</h2>
     <p class="sec-note">Fill this in and it hands back a finished entry to paste into your data file. Nothing is sent anywhere.</p>
-    <p class="allow"><strong>Links are checked against an allowlist before an entry is accepted</strong>, so a visitor can never be sent somewhere unvetted. Currently permitted: <code>youtube.com</code> <code>youtu.be</code> <code>vimeo.com</code> <code>ted.com</code> <code>pbs.org</code> <code>bbc.co.uk</code> <code>npr.org</code> <code>archive.org</code> and any <code>.edu</code> host. Paste a full YouTube address and the video and its start time get pulled out for you. Leave it blank if you have not found a good copy yet &mdash; the clip still gets a card.</p>
+    <p class="allow"><strong>Links are checked against an allowlist before an entry is accepted</strong>, so a visitor can never be sent somewhere unvetted. Currently permitted: <code>youtube.com</code> <code>youtu.be</code> <code>vimeo.com</code> <code>ted.com</code> <code>pbs.org</code> <code>bbc.co.uk</code> <code>npr.org</code> <code>archive.org</code> and any <code>.edu</code> host. Paste a full YouTube address and the video and its start time get pulled out for you; paste a direct address for an image or a sound file and it is treated as a still or as audio. Leave it blank if you have not found a good copy yet &mdash; the entry still gets a card.</p>
 
     <div class="form" id="form">
-      <div class="field wide"><label for="f-url">Paste the clip address (optional)</label><input id="f-url" placeholder="https://www.youtube.com/watch?v=…&amp;t=84s"></div>
+      <div class="field wide"><label for="f-url">Paste the media address (optional)</label><input id="f-url" placeholder="https://www.youtube.com/watch?v=…&amp;t=84s"></div>
+      <div class="field"><label for="f-alt">Alt text (stills only)</label><input id="f-alt" placeholder="A dress photographed under strong backlight"></div>
+      <div class="field"><label for="f-credit">Credit (stills and audio)</label><input id="f-credit" placeholder="Photograph: Cecilia Bleasdale"></div>
       <div class="field"><label for="f-title">Source title</label><input id="f-title" placeholder="The Office (US)"></div>
       <div class="field"><label for="f-kind">Format</label><input id="f-kind" placeholder="Television comedy"></div>
       <div class="field wide"><label for="f-detail">Where in it</label><input id="f-detail" placeholder="Michael follows the satnav into a lake"></div>
@@ -99,7 +101,7 @@
 </main>
 
 <footer class="wrap">
-  <p>Clips play through each platform's own player and are never rehosted, so every view is counted for the rights holder. Thumbnails come from Google's image servers and the typefaces from Google Fonts, so opening a page contacts Google before you have pressed anything; what waits for your click is the player itself, which runs on <code>youtube-nocookie.com</code>. Nothing is stored in your browser. Every card carries enough description to be found again if its link ever dies.</p>
+  <p>Clips play through each platform's own player and are never rehosted, so every view is counted for the rights holder. Opening a page contacts Google — for thumbnails and for the typefaces — and the host of any still shown on a card. Video players and audio wait for your click, and the video player runs on <code>youtube-nocookie.com</code>. Nothing is stored in your browser. Every card carries enough description to be found again if its link ever dies.</p>
 </footer>
 
 <script src="entries.js"></script>

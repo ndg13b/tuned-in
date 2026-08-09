@@ -55,7 +55,7 @@ window.ENTRIES = [
 /* ---------- described, awaiting a verified clip ---------- */
 {
   source:{title:"The Dress", kind:"Viral photograph, 2015", detail:"The original post and the week that followed"},
-  media:{videoId:"", start:0}, module:"Sensation & perception",
+  media:{kind:"image", src:"", alt:"", credit:""}, module:"Sensation & perception",
   surface:"A photo of a dress splits the internet in half. One group sees blue and black, the other white and gold, and neither can believe the other is being serious.",
   prompt:"Take a show of hands. Then ask the two camps to convince each other.",
   concepts:[
@@ -68,7 +68,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Yanny or Laurel", kind:"Viral audio clip, 2018", detail:"The original, plus the pitch-shifted versions"},
-  media:{videoId:"", start:0}, module:"Sensation & perception",
+  media:{kind:"audio", src:"", credit:""}, module:"Sensation & perception",
   surface:"One short recording. Half the room hears one name, half hears a completely different one, and reading the other word on screen can make yours switch mid-listen.",
   prompt:"Which did you hear first? Now look at the other word and listen again.",
   concepts:[
@@ -145,18 +145,17 @@ window.ENTRIES = [
   tags:["funny","film","common error"]
 },
 {
-  source:{title:"Jennifer Thompson and Ronald Cotton", kind:"News documentary", detail:"Covered by 60 Minutes and PBS Frontline"},
-  media:{videoId:"", start:0}, module:"Memory",
-  note:"Sexual assault and wrongful imprisonment.",
-  surface:"A woman identifies her attacker with total certainty. He serves eleven years. DNA later shows she named the wrong man, and that she had seen the right one during the investigation.",
-  prompt:"At what point in this process did the memory change, and could anyone have noticed?",
+  source:{title:"The car crash study", kind:"Classroom demonstration", detail:"Loftus and Palmer, 1974, restaged in lectures ever since"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Memory",
+  surface:"Two groups watch the same short film of a traffic accident. One group is asked how fast the cars were going when they hit each other. The other is asked how fast they were going when they smashed into each other. The second group gives higher numbers, and a week later is markedly more likely to report broken glass at the scene. There was no broken glass.",
+  prompt:"Nobody was lied to and nobody was pressured. So where did the glass come from?",
   concepts:[
-    {name:"Eyewitness misidentification", area:"memory", verdict:"accurate",
-     explanation:"Each retelling and each line-up rewrites the memory slightly, and the rewritten version is what gets retrieved next time. The original is not preserved underneath."},
-    {name:"Confidence inflation", area:"memory", verdict:"accurate",
-     explanation:"Repetition and feedback raise confidence without raising accuracy, and juries weigh confidence heavily. This is the case that makes the stakes of the Mandela effect card concrete, and it is not funny."}
+    {name:"Misinformation effect", area:"memory", verdict:"accurate",
+     explanation:"Information arriving after an event gets folded into the memory of it, and the seam does not show. One verb did the work here: 'smashed' implies a harder impact, that implication is stored alongside what was actually seen, and a week later it comes back indistinguishable from the rest."},
+    {name:"Why interview wording is regulated", area:"memory", verdict:"accurate",
+     explanation:"The practical half. If a single verb can add glass to a memory, the way a witness or a child is questioned is part of the evidence rather than a neutral way of collecting it. This is the reasoning behind the protocols now used for investigative interviews."}
   ],
-  tags:["serious","legal","misinformation effect"]
+  tags:["classic","memory","language"]
 },
 {
   source:{title:"Pawn Stars / Storage Wars", kind:"Reality television", detail:"Effectively any negotiation segment"},
@@ -246,18 +245,17 @@ window.ENTRIES = [
   tags:["funny","classic","hidden camera"]
 },
 {
-  source:{title:"Le Jeu de la Mort", kind:"French television experiment, 2010", detail:"Milgram's design restaged as a game show"},
-  media:{videoId:"", start:0}, module:"Social cognition",
-  note:"Simulated infliction of pain, and audible distress.",
-  surface:"Contestants are told by a host, in front of a studio audience, to deliver escalating shocks to another contestant. A large majority continue past the point of protest.",
-  prompt:"What would have had to be different in that studio for you to stop?",
+  source:{title:"The Price Is Right", kind:"Game show", detail:"Any Contestants' Row bid that lands one dollar above the previous guess"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"Four contestants guess the price of a sofa. The first says nine hundred. The next two land within fifty dollars of that. The fourth says nine hundred and one, and wins constantly.",
+  prompt:"The fourth contestant is not better at pricing sofas. What is the fourth position actually worth?",
   concepts:[
-    {name:"Obedience to authority", area:"social", verdict:"accurate",
-     explanation:"Swapping a laboratory coat for a television format did not reduce compliance; it slightly increased it. The finding is about the situation, not about the kind of person who ends up in it."},
-    {name:"Fundamental attribution error", area:"social", verdict:"accurate",
-     explanation:"Viewers reliably conclude the contestants were unusually weak people. That inference is the error the study exists to correct, and students make it in real time while watching. Handle with care: this material genuinely distresses people."}
+    {name:"Anchoring in a live setting", area:"jdm", verdict:"accurate",
+     explanation:"The first number spoken drags the rest of the row toward it, and the pull survives contestants knowing perfectly well that the opening guess was arbitrary. Adjustment away from an anchor is reliably too small, even with money on the line and an audience shouting corrections."},
+    {name:"A structural advantage nobody uses", area:"jdm", verdict:"accurate",
+     explanation:"Bidding one dollar over the highest standing guess is close to optimal from the last position, and it took decades of televised play before it became common. Knowing the right strategy and being willing to look rude while executing it are separate problems."}
   ],
-  tags:["serious","obedience","television"]
+  tags:["funny","game show","negotiation"]
 },
 {
   source:{title:"Talent show auditions", kind:"Reality television", detail:"Any first-round rejection where the contestant is stunned"},
