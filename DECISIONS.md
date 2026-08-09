@@ -161,7 +161,19 @@ just not in the shop window.
 
 ## Still open
 
-- Media for the 20 entries showing "No verified media yet". Six of them name a
+- Media for the 13 entries showing "No verified media yet". Six of them name a
   category rather than a specific moment ("any negotiation segment", "any
   microexpression analysis scene") and cannot be sourced until they are
   rewritten to point at a particular episode or timestamp.
+- **Separating pop clips from academic ones.** The collection is deliberately
+  weighted toward comedy, but a few entries — the McGurk demonstration, the
+  gorilla test — are lecture material rather than something anyone would
+  recognise. If more academic clips arrive, they want a way to be filtered
+  apart rather than mixed in. Probably a field rather than a tag, since tags
+  are free text and this is a two-way split, but nothing is decided.
+- **Non-YouTube video.** The allowlist permits Vimeo, TED, PBS, BBC and others,
+  but the player only knows how to embed YouTube, so a video on any of those
+  hosts would render as "No verified media yet". The authoring form refuses
+  such an address rather than emitting a broken entry, so nothing silently
+  breaks, but the allowlist is currently advertising more than the site can
+  actually play.
