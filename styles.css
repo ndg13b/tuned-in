@@ -71,6 +71,16 @@
   .noclip{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;
           padding:1.1rem;color:#B9BECE;font-size:.85rem;gap:.4rem}
   .noclip strong{font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;text-transform:uppercase;color:#D98C9F}
+  /* Media kinds other than video. A still is the content itself rather than a
+     preview of it, so it keeps its own shape instead of being cropped into a
+     16:9 frame. */
+  .stage-image{aspect-ratio:auto;max-height:26rem;display:flex;align-items:center;justify-content:center}
+  .stage-image img{width:100%;height:auto;max-height:26rem;object-fit:contain}
+  .stage-audio{aspect-ratio:auto;display:flex;align-items:center;padding:1rem}
+  .stage-audio audio{width:100%}
+  .credit{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--ink-soft);margin:0;
+          padding:.4rem .95rem;border-bottom:1px solid var(--rule);background:var(--surface-2)}
+
   .advisory{background:#F0DDE2;border-bottom:1px solid #DEBFC8;padding:.45rem .95rem;font-size:.78rem;color:#7A2E42}
   .advisory b{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
 

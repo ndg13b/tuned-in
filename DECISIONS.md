@@ -114,6 +114,54 @@ first version of the script reported all three sourced clips as dead when the
 real problem was a blocked host. A checker that cries wolf gets ignored, which
 would leave the site with no defence against its main long-term threat.
 
+## Media kinds
+
+`media.kind` is now one of `youtube`, `image` or `audio`. The collection was
+YouTube-only, which meant the site's own mascot could not be represented in its
+own data model: The Dress is a photograph and Yanny/Laurel is a sound file, and
+both were sitting in the queue waiting for a video that does not exist.
+
+Stills render directly rather than behind a click-to-load facade, because a
+still is the content rather than a preview of it. Audio uses `preload="none"`,
+which keeps the click-to-load promise. Both must be on the allowlist, and images
+must carry alt text or the checker fails.
+
+Deliberately **not** decided here: whether to embed any specific image. The
+famous Dress photograph is copyrighted, and embedding it is a different question
+from embedding a YouTube video, where the platform's own player makes it
+sanctioned and counts the view. The plumbing exists; each image is still a
+judgement call.
+
+## Tone
+
+The eyewitness misidentification entry and the restaged Milgram game show were
+removed at the author's request, to keep the collection lighter for now. The
+first turned on a named assault victim and a wrongful conviction.
+
+The misinformation effect was too important to lose with it, so it is now
+carried by the Loftus and Palmer car crash study — same mechanism, no crime
+victim. The obedience material simply went; conformity is still covered by the
+Candid Camera elevator segment.
+
+Worth noting for whoever revisits this: **the obvious lighter substitute is not
+lighter.** Elizabeth Loftus's TED talk on memory, the natural clip for the lost
+in the mall study, opens with the Steve Titus case — a man wrongly accused of
+rape. It would need the same content advisory as the entry it replaced.
+
+## Explore draws only from playable entries
+
+Explore used to draw uniformly across the whole collection. With 20 of 23 cards
+lacking media, a first-time visitor had roughly an 87% chance of being greeted
+by a card with nothing to play — on the one view built for people with no idea
+where to start, on a site whose premise is that a clip beats a definition.
+
+It now draws from entries that have media, falling back to the whole collection
+if none do. Browse still shows everything: the queue is honest and useful there,
+just not in the shop window.
+
 ## Still open
 
-- Verify links for the 20 entries showing "No verified clip yet".
+- Media for the 20 entries showing "No verified media yet". Six of them name a
+  category rather than a specific moment ("any negotiation segment", "any
+  microexpression analysis scene") and cannot be sourced until they are
+  rewritten to point at a particular episode or timestamp.

@@ -32,9 +32,10 @@ GitHub Pages.
    allowlist is a deliberate decision, not a workaround for a failing check.
 4. **No `localStorage`, `sessionStorage`, or any browser storage.** State lives
    in JS variables for the session and that is fine.
-5. **Do not claim more privacy than the code delivers.** Thumbnails come from
-   Google's image servers and the typefaces from Google Fonts, so Google is
-   contacted on page load, before any click. The footer says exactly that. If
+5. **Do not claim more privacy than the code delivers.** Thumbnails and
+   typefaces come from Google, and a still on a card comes from whichever host
+   serves it, so those hosts are contacted on page load, before any click.
+   Video players and audio wait for the click. The footer says exactly that. If
    the loading behaviour ever changes — self-hosted fonts, a thumbnail-free
    facade — the footer changes with it, in the same commit.
 
@@ -112,7 +113,7 @@ piece of media, which may demonstrate several concepts.
 ```js
 {
   source:  { title, kind, detail },     // detail = where in it, e.g. "S3E12" or a scene description
-  media:   { videoId, start },          // YouTube id and start seconds; "" and 0 if unsourced
+  media:   { kind, ... },               // see below; empty means it is still in the queue
   module:  "Memory",                    // course unit, drives the syllabus view
   surface: "...",                       // what a viewer SEES. Must not name any concept.
   prompt:  "...",                       // question to put to a class before revealing
@@ -121,6 +122,21 @@ piece of media, which may demonstrate several concepts.
   note:    "..."                        // optional content advisory, rendered above the player
 }
 ```
+
+`media.kind` is one of three, because not everything worth teaching is a video —
+The Dress is a photograph and Yanny/Laurel is a sound file:
+
+```js
+{ kind:"youtube", videoId:"", start:0 }              // "" means still in the queue
+{ kind:"image",   src:"", alt:"", credit:"" }        // alt is required once src is set
+{ kind:"audio",   src:"", credit:"" }
+```
+
+`src` must be on the `ALLOWED` host list or the card refuses to render it and the
+checker fails. Stills are shown directly, since a still *is* the content rather
+than a preview of it; audio uses `preload="none"` so nothing is fetched until
+someone presses play. An entry with no usable media renders "No verified media
+yet" and stays in the queue.
 
 `area` is one of: `perception`, `attention`, `memory`, `jdm`, `social`, `meta`.
 
@@ -145,10 +161,17 @@ shows it corrects. Keep all three.
 - **Clips that get it wrong are as valuable as clips that get it right.**
   Students arrive already believing the film version, so correcting a
   misconception they hold confidently sticks better than a clean example does.
-- **Not everything has to be funny.** Humour where it fits, but the eyewitness
-  misidentification and obedience entries are serious and should stay that way.
-  A collection that is only jokes will not be trusted on the material that
-  matters.
+- **The tone currently sits at the lighter end, by the author's decision.** Two
+  entries were removed for it: the eyewitness misidentification case, which
+  turned on a named assault victim and a wrongful conviction, and the restaged
+  Milgram game show. The misinformation effect is now carried by the car crash
+  study instead, which teaches the same mechanism without the gravity.
+- **Avoid real criminal cases involving identifiable people**, particularly
+  assault covered in television documentaries. This is a standing preference,
+  not a temporary one.
+- **The counterweight still applies.** A collection that is only jokes will not
+  be trusted on the material that matters, so heavier material can return
+  deliberately later. It should not creep back in unannounced.
 - **Anything distressing gets a `note`.** Rendered as a visible advisory above
   the player, before anyone presses play.
 - **Every entry must survive its own link dying.** `source.title`,
@@ -168,7 +191,10 @@ A global switch in the masthead, applying to all views.
 ## Views
 
 `Explore` is the landing view: one random clip, for visitors with no idea where
-to start. Then `Browse all` (search plus area and verdict filters), `By course
+to start. It draws only from entries that have media, because handing a first
+visitor an unplayable card is the worst possible introduction to a site whose
+premise is that a clip beats a definition. `Browse all` still shows everything,
+queue included. Then `Browse all` (search plus area and verdict filters), `By course
 unit` (grouped by `module`, with copy-to-clipboard lines for slides and
 syllabi), and `Add a clip` (a form that validates the host, extracts the YouTube
 id and start time from a pasted address, and emits a pasteable entry object —
