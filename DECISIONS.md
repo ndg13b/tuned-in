@@ -6,7 +6,9 @@ reopening one of these should mean answering the objection, not forgetting it.
 
 ## Name
 
-Settled on **Tuned In**, tagline *what your mind is doing while you watch*.
+Settled on **Tuned In**. The tagline it originally shipped with, *what your mind
+is doing while you watch*, was later replaced — see the Tagline section below.
+The name itself is not reopened.
 
 The name reads two ways deliberately: tuned in to a broadcast, and tuned in to
 the mechanisms behind what you're watching. The second reading is the thesis.
@@ -28,6 +30,56 @@ Rejected along the way:
   phrase has been used by someone less rigorous, and people arrive at a site
   through its framing rather than through its naming neighbourhood. Do not
   re-raise the association concern.
+
+## Tagline
+
+Changed from *what your mind is doing while you watch* to **pop culture, and
+the psychology underneath it**. The original was not wrong, but it described a
+mood rather than a subject, and it sat close to the intuition-and-wellness
+register the project deliberately avoids. The replacement names both halves —
+the clip you already recognise, and the mechanism under it — which is the same
+two-way reading the name carries.
+
+The name itself is unchanged and is not reopened here.
+
+## Favicon
+
+A brain inside a television set. Considered and rejected: a plain brain, which
+is the most overused icon in psychology, is unreadable at 16px, and is the
+brain-equals-mind shorthand this site debunks on the ten percent card; and a
+split referencing The Dress, rejected by the author as too specific a reference
+to carry the whole site.
+
+Drawn as SVG with a PNG fallback, both self-hosted, so the tab icon costs no
+third-party request. Two constraints shaped it: the screen is filled light and
+outlined dark so it survives on light and dark browser chrome alike, and the
+brain is an asymmetric blob rather than two symmetric lobes, because symmetry
+about a centre line reads as the letter phi at small sizes. The first attempt
+did exactly that and was thrown away.
+
+## Demonstrations that need a naive viewer
+
+Some clips only work on someone who does not know what is coming. Announcing
+inattentional blindness above a counting task destroys the very thing the clip
+exists to show, and Reference mode — the default — was doing precisely that.
+
+Considered: removing this material entirely and reintroducing it later in a
+separately formatted academic section. Rejected for now because it would have
+cost three of the eleven working clips, and because the fix is small.
+
+**Chosen:** a `watchFirst: true` flag. Those entries stay closed even in
+Reference mode, carry a visible "Watch first" line, and had their `surface` and
+`prompt` rewritten — both previously described the reveal outright. The
+academic-section idea is still open and is the better long-term home for them.
+
+Note that the McGurk effect is deliberately *not* flagged. Knowing how it works
+does not switch it off, which is that card's second concept.
+
+While fixing this, the collapsed panel turned out to hide the answer visually
+but leave it in the accessibility tree and in find-in-page, so a screen reader
+announced every concept before the clip was watched. Class mode had been
+quietly broken for those users since it was built. The panel is now
+`visibility:hidden` when closed.
 
 ## Card structure
 

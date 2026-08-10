@@ -1,6 +1,6 @@
 # Project context
 
-**Tuned In** — *what your mind is doing while you watch*. Repo `tuned-in`,
+**Tuned In** — *pop culture, and the psychology underneath it*. Repo `tuned-in`,
 served from `index.html`.
 
 The name reads two ways on purpose: tuned in to a broadcast, and tuned in to the
@@ -125,7 +125,8 @@ piece of media, which may demonstrate several concepts.
   prompt:  "...",                       // question to put to a class before revealing
   concepts: [ { name, area, verdict, explanation } ],
   tags:    [],
-  note:    "..."                        // optional content advisory, rendered above the player
+  note:    "...",                       // optional content advisory, rendered above the player
+  watchFirst: true                      // optional; see below
 }
 ```
 
@@ -160,6 +161,13 @@ shows it corrects. Keep all three.
 - **`surface` must never name a concept or hint at the mechanism.** In Class mode
   it is the only text a student sees. If it gives the answer away, the mode is
   broken.
+- **`watchFirst: true` for demonstrations that need a naive viewer.** The
+  awareness tests and the card trick only work on someone who does not know
+  what is coming, so naming the effect above the player destroys the thing the
+  clip is there to show. These entries stay closed even in Reference mode and
+  carry a visible "Watch first" line. Their `surface` and `prompt` must survive
+  being read *before* the clip, which is stricter than the normal rule — the
+  prompt cannot hint at the reveal either.
 - **Multiple concepts per clip is the norm, not the exception.** Often the second
   or third concept is the interesting one — people who miss the gorilla don't
   just miss it, they insist it wasn't there, which is a separate finding about

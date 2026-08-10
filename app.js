@@ -138,10 +138,18 @@ function conceptsHTML(e){
 function cardHTML(e){
   const id = "k" + (uid++);
   const n = e.concepts.length;
-  const open = MODE === "reference";
+  /*
+   * Some demonstrations only work on someone who does not know what is coming.
+   * Naming inattentional blindness above a counting task destroys the very
+   * thing the clip is there to show, so those entries stay closed even in
+   * Reference mode. Class mode was already doing this for every card; this
+   * makes it permanent where the content requires it.
+   */
+  const open = MODE === "reference" && !e.watchFirst;
   const label = n === 1 ? "Reveal the concept" : "Reveal the " + n + " concepts";
   return `<article class="card" id="${id}" data-open="${open}">
     ${e.note ? `<p class="advisory"><b>Content note</b> &mdash; ${esc(e.note)}</p>` : ""}
+    ${e.watchFirst ? `<p class="watchfirst"><b>Watch first</b> &mdash; this one stops working if you read ahead.</p>` : ""}
     ${stageHTML(e)}
     <div class="body">
       <p class="source"><b>${esc(e.source.title)}</b>${esc(e.source.kind)} &middot; ${esc(e.source.detail)}</p>

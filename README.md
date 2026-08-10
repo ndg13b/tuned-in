@@ -1,6 +1,6 @@
 # Tuned In
 
-*What your mind is doing while you watch.*
+*Pop culture, and the psychology underneath it.*
 
 A teaching collection that pairs pop culture clips with the cognitive psychology
 concepts they demonstrate. Built for college students and the people teaching
@@ -37,6 +37,11 @@ A switch in the masthead, applying to every view.
 - **Class** — the clip, a description of what happens, and a discussion prompt.
   Explanations stay hidden behind a button that says how many concepts are
   waiting, so a class has a findable target rather than an open guess.
+
+A few cards are marked **Watch first** and stay closed in both modes. The
+awareness tests and the card trick only work on a viewer who does not know what
+is coming, so naming the effect above the player would destroy the thing the
+clip is there to show.
 
 ## Views
 

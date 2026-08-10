@@ -81,6 +81,11 @@
   .credit{font-family:var(--mono);font-size:.6rem;letter-spacing:.06em;color:var(--ink-soft);margin:0;
           padding:.4rem .95rem;border-bottom:1px solid var(--rule);background:var(--surface-2)}
 
+  /* Distinct from the rose advisory: this is an instruction, not a warning. */
+  .watchfirst{background:#E4E7F2;border-bottom:1px solid #C6CCE2;padding:.45rem .95rem;font-size:.78rem;
+              color:#2B3566;margin:0}
+  .watchfirst b{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
+
   .advisory{background:#F0DDE2;border-bottom:1px solid #DEBFC8;padding:.45rem .95rem;font-size:.78rem;color:#7A2E42}
   .advisory b{font-family:var(--mono);font-size:.62rem;letter-spacing:.1em;text-transform:uppercase}
 
@@ -110,8 +115,13 @@
           font-family:var(--mono);font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--ink)}
   .reveal:hover{background:var(--ink);color:var(--surface)}
   .hidden-panel{display:grid;grid-template-rows:0fr;transition:grid-template-rows .4s ease}
-  .hidden-panel > div{overflow:hidden}
+  /* Clipping to zero height hides the answer from sight but leaves it in the
+     accessibility tree and in find-in-page, so a screen reader would announce
+     the concepts before the clip is watched. visibility:hidden removes it from
+     both, which is what Class mode and the watch-first cards actually promise. */
+  .hidden-panel > div{overflow:hidden;visibility:hidden;transition:visibility 0s linear .4s}
   .card[data-open="true"] .hidden-panel{grid-template-rows:1fr}
+  .card[data-open="true"] .hidden-panel > div{visibility:visible;transition-delay:0s}
   .foot{margin-top:auto;padding-top:.85rem}
   .tags{display:flex;gap:.35rem;flex-wrap:wrap;margin:0}
   .tag{font-family:var(--mono);font-size:.6rem;color:var(--ink-soft)}
