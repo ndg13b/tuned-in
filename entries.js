@@ -17,9 +17,9 @@ window.ENTRIES = [
 /* ---------- clips sourced and verified ---------- */
 {
   source:{title:"Selective attention test", kind:"Web video, Daniel Simons", detail:"The original awareness test, 1999"},
-  media:{videoId:"vJG698U2Mvo", start:0}, module:"Attention",
-  surface:"You are asked to count how many passes the players in white make. You count carefully. You get the number right.",
-  prompt:"Did everyone get the same count? And did anyone see anything else?",
+  media:{kind:"youtube", videoId:"vJG698U2Mvo", start:0}, module:"Attention", watchFirst:true,
+  surface:"You are asked to count how many times the players in white pass the ball. Count them properly. The number is the task.",
+  prompt:"Did everyone get the same number?",
   concepts:[
     {name:"Inattentional blindness", area:"attention", verdict:"accurate",
      explanation:"Roughly half of viewers do not see the gorilla walk into frame, beat its chest and leave. Not blurred, not dim — absent. Committing attention to the counting task leaves it unprocessed at the level awareness requires."},
@@ -43,9 +43,9 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Colour Changing Card Trick", kind:"Web video, Richard Wiseman", detail:"Quirkology, filmed in a single take"},
-  media:{videoId:"v3iPrBrGSJM", start:0}, module:"Attention",
-  surface:"A magician invites you to watch a card closely, then reveals how the trick was done. Then he points out everything else that happened while you were watching the card.",
-  prompt:"Before the reveal: how much of that room could you describe from memory?",
+  media:{kind:"youtube", videoId:"v3iPrBrGSJM", start:0}, module:"Attention", watchFirst:true,
+  surface:"A magician asks you to pick a card and keep your eyes on it, then explains how the trick was done.",
+  prompt:"Could you perform that trick now, knowing the method?",
   concepts:[
     {name:"Change blindness", area:"attention", verdict:"accurate",
      explanation:"The tablecloth, the backdrop and both performers' clothing change colour mid-shot, in one continuous take, and almost nobody notices. Without attention pointed at an object, a change to it generates no signal at all."},
@@ -84,9 +84,9 @@ window.ENTRIES = [
 },
 {
   source:{title:"Transport for London awareness advert", kind:"Public safety advert", detail:"Count the passes; watch for the bear"},
-  media:{kind:"youtube", videoId:"1_UuZQhlZ5k", start:0}, module:"Attention",
-  surface:"Another counting task. This time a person in a bear costume moonwalks through the middle of the shot.",
-  prompt:"The tagline is about drivers and cyclists. Does the demonstration actually support it?",
+  media:{kind:"youtube", videoId:"1_UuZQhlZ5k", start:0}, module:"Attention", watchFirst:true,
+  surface:"A road safety advert opens with an instruction: count the passes made by the team in white.",
+  prompt:"The advert has a point to make about drivers and cyclists. Does what you just watched earn it?",
   concepts:[
     {name:"Inattentional blindness in the wild", area:"attention", verdict:"accurate",
      explanation:"The same effect as the gorilla, repurposed as road safety messaging: a driver scanning for cars can genuinely fail to see a cyclist, because looking and seeing come apart. Useful for arguing about how far a lab finding should be pushed into policy."}
