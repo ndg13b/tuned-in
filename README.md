@@ -17,11 +17,16 @@ liar. Both are useful, and the second is often more useful than the first.
 
 Every concept on a card carries one, and the middle one is doing real work.
 
-| Verdict | Means |
-| --- | --- |
-| `accurate` | The clip shows the real thing. |
-| `overstated` | Real phenomenon, exaggerated portrayal. Sherlock's mind palace is a genuine technique filmed as though it were instant. |
-| `myth` | Pop culture gets it wrong. Behavioural lie detection; the ten percent myth. |
+| Verdict | Shown on a card as | Means |
+| --- | --- | --- |
+| `accurate` | pop culture gets this right | The clip shows the real thing. |
+| `overstated` | pop culture overstates this | Real phenomenon, exaggerated portrayal. Sherlock's mind palace is a genuine technique filmed as though it were instant. |
+| `myth` | pop culture gets this wrong | The portrayal is wrong. Behavioural lie detection; the ten percent myth. |
+
+The label names *pop culture* on purpose. The verdict judges the portrayal, not
+the sentence above it, and a bare "myth" under a concept called "what
+short-term memory actually means" reads as though the true statement were the
+myth.
 
 Collapsing these into right and wrong would make the site less accurate than the
 shows it corrects, so all three stay. Clips that get it wrong are as valuable as
