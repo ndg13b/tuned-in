@@ -89,7 +89,7 @@ window.ENTRIES = [
   prompt:"The advert has a point to make about drivers and cyclists. Does what you just watched earn it?",
   concepts:[
     {name:"Inattentional blindness in the wild", area:"attention", verdict:"accurate",
-     explanation:"The same effect as the gorilla, repurposed as road safety messaging: a driver scanning for cars can genuinely fail to see a cyclist, because looking and seeing come apart. Useful for arguing about how far a lab finding should be pushed into policy."}
+     explanation:"The same effect as the gorilla, repurposed as road safety messaging: a driver scanning for cars can genuinely fail to see a cyclist, because looking and seeing come apart. Whether a laboratory result should be pushed quite this far into road safety policy is a fair question, and the advert is worth arguing with."}
   ],
   tags:["road safety","funny","applied"]
 },
@@ -100,7 +100,7 @@ window.ENTRIES = [
   prompt:"At exactly which point did this stop being worth doing?",
   concepts:[
     {name:"Elaborative encoding", area:"memory", verdict:"accurate",
-     explanation:"The opening move is real and it works. An arbitrary label like H5 is nearly impossible to hold, so binding it to something meaningful and vivid — a high five — gives you a retrieval path that a bare code does not have. This is the same machinery behind the method of loci, and it is what students should be doing with vocabulary lists."},
+     explanation:"The opening move is real and it works. An arbitrary label like H5 is nearly impossible to hold, so binding it to something meaningful and vivid — a high five — gives you a retrieval path that a bare code does not have. It is the same machinery behind the memory palace, and it works on anything arbitrary: a locker combination, a shopping list, a new language."},
     {name:"A cue has to cost less than what it retrieves", area:"memory", verdict:"accurate",
      explanation:"And here is where the sketch turns into an argument. Every addition makes the cue more distinctive and also more expensive, until you are carrying an elaborate performance in order to retrieve one short fact. A mnemonic is a trade, and past a certain point you have simply exchanged one memory problem for a bigger one."}
   ],
@@ -108,27 +108,27 @@ window.ENTRIES = [
 },
 {
   source:{title:"Sherlock", kind:"Television drama, BBC", detail:"The mind palace sequences"},
-  media:{videoId:"", start:0}, module:"Memory",
+  media:{kind:"youtube", videoId:"0FSKTndbwVo", start:0}, module:"Memory",
   surface:"Sherlock closes his eyes, walks through an imagined building, and retrieves an exact fact from the room where he left it.",
   prompt:"Is this a real technique, an invented one, or a real one filmed dishonestly?",
   concepts:[
     {name:"Method of loci", area:"memory", verdict:"overstated",
      explanation:"Real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What the show exaggerates is speed and reliability — a usable palace takes weeks of practice."},
     {name:"Elaborative encoding", area:"memory", verdict:"accurate",
-     explanation:"Why it works is the part worth teaching. Spatial memory is unusually durable, so turning a flat list into a route through a place you already know gives each item several retrieval paths instead of one. This generalises directly to how students should be studying."}
+     explanation:"Why it works is the interesting part. Spatial memory is unusually durable, so turning a flat list into a route through a place you already know gives each item several ways back instead of one. Anyone can learn it. It simply takes longer to build than the show lets on."}
   ],
   tags:["technique","study skills","television"]
 },
 {
-  source:{title:"'Luke, I am your father'", kind:"Film quote and its afterlife", detail:"Also the Berenstain Bears and the Monopoly man's monocle"},
+  source:{title:"The Empire Strikes Back", kind:"Film, 1980", detail:"The Cloud City duel, and the line everybody misquotes"},
   media:{videoId:"", start:0}, module:"Memory",
-  surface:"Enormous numbers of people vividly remember a line that was never said. The actual line is 'No, I am your father.' The Monopoly man has never worn a monocle. Comment sections will fight you on both.",
-  prompt:"Everyone write down the line as you remember it, before anybody speaks.",
+  surface:"A duel on a walkway, a revelation, and one of the most quoted lines in film. Watch what Vader actually says. Most people are certain it begins with the word Luke. It does not.",
+  prompt:"Write down the line as you remember it before you press play.",
   concepts:[
     {name:"Reconstructive memory", area:"memory", verdict:"myth",
      explanation:"Memory is rebuilt each time from gist plus expectation, not stored and replayed. 'Luke' makes the line intelligible out of context, so it gets inserted on the way out."},
     {name:"Schema-driven intrusion", area:"memory", verdict:"accurate",
-     explanation:"A monocle fits the top-hat-and-cane schema, so it grows into the memory of an image most people have seen hundreds of times. Whatever fits the pattern gets filled in silently."},
+     explanation:"The same thing happens to images. The Monopoly man has never worn a monocle, but one fits the top-hat-and-cane pattern so neatly that it grows into the memory of a picture most people have seen hundreds of times. Whatever fits gets filled in silently, and the filling feels identical to the remembering."},
     {name:"Confidence-accuracy dissociation", area:"meta", verdict:"accurate",
      explanation:"Everyone is certain, and certainty is spread evenly across the correct and incorrect answers. The friendliest possible route to a point that matters enormously in the eyewitness card."}
   ],
@@ -136,14 +136,14 @@ window.ENTRIES = [
 },
 {
   source:{title:"Memento", kind:"Film, 2000", detail:"Leonard's tattoos and Polaroids"},
-  media:{videoId:"", start:0}, module:"Memory",
+  media:{kind:"youtube", videoId:"XSSwl1ousyM", start:0}, module:"Memory",
   surface:"A man cannot form new memories. He keeps his life in tattoos, photographs and notes, and the film's reversed structure puts you in his position.",
   prompt:"List everything the film gets right before listing what it gets wrong.",
   concepts:[
     {name:"Anterograde amnesia", area:"memory", verdict:"accurate",
      explanation:"Unusually faithful. Memories from before the injury survive, new facts and events do not stick, and the deficit is specific rather than a general loss of intelligence."},
     {name:"Procedural and declarative memory dissociate", area:"memory", verdict:"accurate",
-     explanation:"He still improves at things through repetition while being unable to remember practising. Two separate systems, and damage to one leaves the other intact — the single most surprising fact about memory for most students."}
+     explanation:"He still improves at things through repetition while being unable to remember practising. Two separate systems, and damage to one can leave the other untouched, which is why memory is better thought of as several things than as one."}
   ],
   tags:["film","accurate","serious"]
 },
@@ -153,10 +153,10 @@ window.ENTRIES = [
   surface:"A fish cheerfully explains that she suffers from short-term memory loss. It runs in her family. She loses the thread of the conversation while she is still having it.",
   prompt:"She names her own condition. Is the name right?",
   concepts:[
-    {name:"Short-term memory is seconds, not a day", area:"memory", verdict:"myth",
-     explanation:"Short-term memory holds a handful of items for a few seconds. It is not what fails here, and on screen the phrase almost always means something else entirely. 50 First Dates makes the same mistake more grandly, with a memory that wipes clean each midnight — real amnesia does not run on a schedule."},
+    {name:"What 'short-term memory' actually means", area:"memory", verdict:"myth",
+     explanation:"Short-term memory holds a handful of items for a few seconds. That is not what has failed here, and on screen the phrase almost always means something else. The 2004 film 50 First Dates makes the same mistake on a grander scale, with a memory that wipes clean every midnight; real amnesia does not run to a schedule."},
     {name:"Failure of consolidation", area:"memory", verdict:"myth",
-     explanation:"Her actual problem is close to the opposite of what she calls it: nothing new reaches long-term storage. The short-term system is working fine, which is why she can hold a sentence in mind at all. Students arrive believing the film version, which is exactly why correcting it sticks."}
+     explanation:"Her actual problem is close to the opposite of what she calls it: nothing new reaches long-term storage. The short-term system is working fine, which is why she can follow a sentence at all."}
   ],
   tags:["funny","film","common error"]
 },
@@ -174,23 +174,23 @@ window.ENTRIES = [
   tags:["funny","film","logic"]
 },
 {
-  source:{title:"Pawn Stars / Storage Wars", kind:"Reality television", detail:"Effectively any negotiation segment"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
+  source:{title:"Pawn Stars", kind:"Reality television", detail:"A haggle where the seller names the first number"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
   surface:"Someone names a number first. Every offer that follows orbits it, including offers from people who say out loud that the first number was nonsense.",
   prompt:"Track the numbers. Where did each one actually come from?",
   concepts:[
     {name:"Anchoring and adjustment", area:"jdm", verdict:"accurate",
      explanation:"A number in play becomes the starting point for estimation, and adjustment away from it is chronically too small. These shows are anchoring laboratories that happen to have camera crews in them."},
     {name:"Expertise does not confer immunity", area:"jdm", verdict:"accurate",
-     explanation:"The dealer knows the market, knows the tactic, and still lands closer to the opening number than to his own independent valuation. Pairs well with the finding that estate agents anchor on list price even when told to ignore it."}
+     explanation:"The dealer knows the market, knows the tactic, and still lands closer to the opening number than to his own independent valuation. Estate agents do the same thing with a list price, even when they are told to ignore it."}
   ],
   tags:["negotiation","reality tv","classic"]
 },
 {
-  source:{title:"Post-game punditry", kind:"Live broadcast", detail:"Any panel discussing a fourth-quarter decision"},
-  media:{videoId:"", start:0}, module:"Judgment & decision making",
-  surface:"A call the same panel described as reasonable before kickoff is, ninety minutes later, obviously indefensible and something anyone could have seen coming.",
-  prompt:"Find the pre-game tape. Is the panel contradicting itself, or reasoning normally?",
+  source:{title:"Super Bowl XLIX", kind:"Live sport and its aftermath", detail:"Seattle's second-and-goal pass from the one yard line, February 2015"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
+  surface:"With twenty-six seconds left and the ball on the one yard line, Seattle throws instead of running. It is intercepted. Within minutes it is being called the worst decision in the history of the sport.",
+  prompt:"Before the snap, would you have called it indefensible?",
   concepts:[
     {name:"Hindsight bias", area:"jdm", verdict:"accurate",
      explanation:"Learning an outcome quietly rewrites your memory of how uncertain you were beforehand. The alternatives become hard to reach, so the result feels like it was always the likely one."},
@@ -208,7 +208,7 @@ window.ENTRIES = [
     {name:"Conditional probability", area:"jdm", verdict:"accurate",
      explanation:"The host knows where the prize is and will never open that door, so his choice carries information. Your original door keeps its one-in-three; the remaining door inherits everything else. The scene's maths is right."},
     {name:"Resistance to correct answers", area:"meta", verdict:"accurate",
-     explanation:"The more interesting half is the audience. Professional mathematicians publicly refused this result for years. An intuition that feels like understanding is very hard to dislodge with a proof — a teaching problem as much as a psychology finding."}
+     explanation:"The more interesting half is the audience. Professional mathematicians publicly refused this result for years. An intuition that feels like understanding is very hard to dislodge with a proof, even for people who work with proofs all day."}
   ],
   tags:["film","probability","classic"]
 },
@@ -219,7 +219,7 @@ window.ENTRIES = [
   prompt:"Written in 2007. What is the 2026 version of this?",
   concepts:[
     {name:"Automation bias", area:"jdm", verdict:"accurate",
-     explanation:"When a system is usually right, people stop treating its output as evidence to be weighed and start treating it as an instruction. Direct visual contradiction loses. Thirty seconds that now does more work than any slide on deferring to algorithms."}
+     explanation:"When a system is usually right, people stop treating its output as evidence to be weighed and start treating it as an instruction. Direct visual contradiction loses. The joke has aged strangely well: the same deference turns up wherever a confident system gives an answer."}
   ],
   tags:["funny","the office","technology"]
 },
@@ -235,21 +235,21 @@ window.ENTRIES = [
   tags:["funny","the office","overconfidence"]
 },
 {
-  source:{title:"Charades, and its talk-show version", kind:"Party game", detail:"Any round where the clue-giver gets angry"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
-  surface:"One player is doing something they consider blindingly obvious. Their partner has no idea. The clue-giver becomes genuinely furious, which is the funniest part.",
-  prompt:"Why is the anger the interesting bit rather than the failure?",
+  source:{title:"The Tonight Show Starring Jimmy Fallon", kind:"Television talk show", detail:"Charades with Kate McKinnon and Rosé"},
+  media:{kind:"youtube", videoId:"p8-uEJ11GAM", start:0}, module:"Metacognition & myths",
+  surface:"One player mimes something they clearly think is unmistakable. Their partner stares at them with no idea. The gestures get bigger and more urgent, and no clearer.",
+  prompt:"Watch the person miming. What are they convinced is obvious?",
   concepts:[
     {name:"Curse of knowledge", area:"meta", verdict:"accurate",
      explanation:"Once you know something you cannot properly simulate not knowing it. Your own knowledge leaks into your model of the other person, so you systematically overestimate how clear you are being."},
     {name:"Illusion of transparency", area:"social", verdict:"accurate",
-     explanation:"You also overestimate how visible your intentions are from outside. The gesture that feels unmistakable inside your head is genuinely ambiguous from across the room — the core problem in all teaching and all technical writing."}
+     explanation:"You also overestimate how far your intentions show. The gesture that feels unmistakable from inside your own head is genuinely ambiguous from across the room. It is the same gap that makes written instructions, directions and apologies land differently than intended."}
   ],
   tags:["funny","game","communication"]
 },
 {
-  source:{title:"Candid Camera", kind:"Hidden camera television", detail:"'Face the Rear' elevator segment"},
-  media:{videoId:"", start:0}, module:"Social cognition",
+  source:{title:"Candid Camera", kind:"Hidden camera television, 1962", detail:"The episode called Face the Rear"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Social cognition",
   surface:"A man steps into an elevator. Everyone already inside is facing the back wall. Within seconds he turns to face the back too. When they remove their hats, he removes his.",
   prompt:"He will never see these people again. So why did he turn?",
   concepts:[
@@ -261,7 +261,7 @@ window.ENTRIES = [
   tags:["funny","classic","hidden camera"]
 },
 {
-  source:{title:"The Price Is Right", kind:"Game show", detail:"Any Contestants' Row bid that lands one dollar above the previous guess"},
+  source:{title:"The Price Is Right", kind:"Game show", detail:"A Contestants' Row round won by bidding one dollar over"},
   media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
   surface:"Four contestants guess the price of a sofa. The first says nine hundred. The next two land within fifty dollars of that. The fourth says nine hundred and one, and wins constantly.",
   prompt:"The fourth contestant is not better at pricing sofas. What is the fourth position actually worth?",
@@ -274,21 +274,21 @@ window.ENTRIES = [
   tags:["funny","game show","negotiation"]
 },
 {
-  source:{title:"Talent show auditions", kind:"Reality television", detail:"Any first-round rejection where the contestant is stunned"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
-  surface:"A contestant performs, is rejected, and reacts with total disbelief. The clip is captioned with the name of a psychology effect and shared several million times.",
-  prompt:"The caption names an effect. Is the caption right?",
+  source:{title:"The Dunning-Kruger chart", kind:"Internet explainer", detail:"The curve with a peak labelled Mount Stupid, and the clips captioned with it"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Metacognition & myths",
+  surface:"A curve appears, rising to an early peak labelled Mount Stupid before collapsing into a valley and climbing slowly back. It is shared with clips of confident people being wrong, and it has been reposted several million times.",
+  prompt:"The chart names a real study. Does it match one?",
   concepts:[
     {name:"The Dunning-Kruger effect, as popularly retold", area:"meta", verdict:"overstated",
-     explanation:"The popular version — the least able believe they are the best — overstates the original. The finding was milder and two-sided: weaker performers overestimate somewhat, while the strongest tend to underestimate. Useful precisely because it corrects a misconception students already hold confidently."},
+     explanation:"The popular version — the least able believe they are the best — overstates the original. The finding was milder and two-sided: weaker performers overestimate somewhat, while the strongest tend to underestimate. The tidy version captioned on the clips is not what the study reported."},
     {name:"Absence of feedback", area:"meta", verdict:"accurate",
-     explanation:"A likelier explanation for the specific clip. Assessing your own singing needs either good feedback or the very skill you are assessing, and friends and family systematically withhold the first. The gap is often about the environment, not the person."}
+     explanation:"There is a kinder and probably better explanation available. Judging your own singing needs either honest feedback or the very skill being judged, and friends and family reliably withhold the first. The gap is often about the environment someone is in rather than something wrong with them."}
   ],
   tags:["funny","misconception","reality tv"]
 },
 {
-  source:{title:"Derren Brown; Penn & Teller: Fool Us", kind:"Television specials", detail:"Any personality-reading routine"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  source:{title:"Derren Brown: Trick of the Mind", kind:"Television series, series 3", detail:"The astrology experiment, where everyone is handed the same reading"},
+  media:{kind:"youtube", videoId:"", start:0}, module:"Metacognition & myths",
   surface:"Everyone in the room is handed a personality profile. Each person finds theirs uncannily accurate. Every profile is identical.",
   prompt:"Read one line aloud. How many people think it came from theirs?",
   concepts:[
@@ -300,8 +300,8 @@ window.ENTRIES = [
   tags:["funny","magic","gullibility"]
 },
 {
-  source:{title:"Lie to Me", kind:"Television drama", detail:"Any microexpression analysis scene"},
-  media:{videoId:"", start:0}, module:"Metacognition & myths",
+  source:{title:"Lie to Me", kind:"Television drama", detail:"The pilot, opening interrogation"},
+  media:{kind:"youtube", videoId:"bWyhsqh_e9s", start:0}, module:"Metacognition & myths",
   surface:"A consultant freezes video of a suspect's face, identifies a flicker lasting a fraction of a second, and declares the person is lying. He is always right.",
   prompt:"How would you design a study to test whether this works?",
   concepts:[

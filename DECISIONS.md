@@ -81,6 +81,47 @@ announced every concept before the clip was watched. Class mode had been
 quietly broken for those users since it was built. The panel is now
 `visibility:hidden` when closed.
 
+## How the verdict is labelled
+
+The verdict judges the portrayal, not the sentence it sits under. Printing a
+bare `myth` beneath a concept named "Short-term memory is seconds, not a day"
+read as though that true statement were the myth, which is the opposite of what
+the card means.
+
+Cards now print **pop culture gets this right / overstates this / gets this
+wrong**, which names who is being judged. The filter chips keep the short forms.
+The three underlying values and their colours are unchanged; only the wording a
+reader sees moved.
+
+The related fix was in the concept names themselves. Several `myth` concepts
+were named for the true mechanism — "Failure of consolidation", "Reconstructive
+memory" — which compounded the confusion. Where a rename made the topic clearer
+it was made; the rest read correctly now that the label has a subject.
+
+## Writing for the viewer, not the instructor
+
+An editorial pass removed ten explanations that addressed an instructor rather
+than the person reading the card: "students arrive believing the film version",
+"pairs well with the finding that…", "the part worth teaching", "does more work
+than any slide on…". The site is read by students and by curious visitors, and
+being talked about in the third person is alienating for both.
+
+References to other works now carry enough context to stand alone. "50 First
+Dates makes the same mistake" became "The 2004 film 50 First Dates", since a
+reader cannot be assumed to recognise every title by name.
+
+## Not laughing at identifiable people
+
+The Dunning-Kruger entry pointed at talent show auditions — "any first-round
+rejection where the contestant is stunned" — which meant sourcing it would have
+required linking a real person being laughed at for being bad at something.
+That sits badly against the standing rule never to sneer at people for being
+fooled.
+
+The entry now points at the chart instead: the curve with a peak labelled Mount
+Stupid, and the clips it gets attached to. The target is the misreading of the
+research, which is the actual subject, and nobody has to be the punchline.
+
 ## Card structure
 
 - **A 3D flip card with the concept name on the front.** The original design.

@@ -14,6 +14,19 @@ const ALLOWED = ["youtube.com","www.youtube.com","youtu.be","youtube-nocookie.co
    ========================================================================== */
 
 const areaLabel = k => (AREAS.find(a => a[0] === k) || [k,k])[1];
+
+/*
+ * The verdict judges the portrayal, not the sentence above it. Printing a bare
+ * "myth" under a concept named "Short-term memory is seconds, not a day" reads
+ * as though that true statement were the myth. These labels say who is being
+ * judged.
+ */
+const VERDICTS = {
+  accurate:   { card:"pop culture gets this right", chip:"Gets it right" },
+  overstated: { card:"pop culture overstates this", chip:"Overstates it" },
+  myth:       { card:"pop culture gets this wrong", chip:"Gets it wrong" }
+};
+const verdictLabel = (v, where) => (VERDICTS[v] || {})[where] || v;
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 let MODE = "reference";
 let uid = 0;
@@ -130,7 +143,7 @@ function conceptsHTML(e){
     <li><span class="num ${c.verdict}">${i+1}</span>
       <div>
         <p class="cname">${esc(c.name)}</p>
-        <p class="cmeta">${esc(areaLabel(c.area))} &middot; <span class="v ${c.verdict}">${c.verdict}</span></p>
+        <p class="cmeta">${esc(areaLabel(c.area))} &middot; <span class="v ${c.verdict}">${esc(verdictLabel(c.verdict,"card"))}</span></p>
         <p class="cexp">${esc(c.explanation)}</p>
       </div></li>`).join("") + `</ul>`;
 }
@@ -237,7 +250,7 @@ const state = {q:"", areas:new Set(), verdicts:new Set()};
 document.getElementById("area-chips").innerHTML = AREAS.map(([k,l]) =>
   `<button class="chip" data-area="${k}" aria-pressed="false">${l}</button>`).join("");
 document.getElementById("verdict-chips").innerHTML = ["accurate","overstated","myth"].map(v =>
-  `<button class="chip" data-verdict="${v}" aria-pressed="false">${v === "myth" ? "Gets it wrong" : v[0].toUpperCase()+v.slice(1)}</button>`).join("");
+  `<button class="chip" data-verdict="${v}" aria-pressed="false">${esc(verdictLabel(v,"chip"))}</button>`).join("");
 document.querySelectorAll(".chip").forEach(c => c.addEventListener("click", () => {
   const key = c.dataset.area ? "areas" : "verdicts";
   const val = c.dataset.area || c.dataset.verdict;

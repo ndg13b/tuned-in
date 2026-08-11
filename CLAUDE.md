@@ -60,6 +60,11 @@ institutional, not brand-y, no exclamation marks.
   because reality did not fit a two-way split. When the research is messier than
   the pop version, say so — that gap is often the most interesting content on
   the card.
+- **Write to the viewer, not to the instructor.** Explanations are read by
+  students and by curious visitors, so no "students arrive believing…", no
+  "pairs well with…", no "the part worth teaching". Name other films and shows
+  with enough context to stand alone, since a reader cannot be assumed to
+  recognise every title.
 - **Never sneer at people for being fooled.** Everyone is subject to all of
   this, including the author and including the researchers. Cards about myths
   correct the claim, not the person who believed it.
