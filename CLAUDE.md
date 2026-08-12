@@ -163,6 +163,17 @@ shows it corrects. Keep all three.
 
 ## Editorial rules
 
+- **A concept name states a topic or a claim, never a correction.** The verdict
+  label attaches to the name, so "Short-term memory is seconds, not a day" with
+  a `myth` verdict reads as though that true statement were the myth. Name it
+  for what is being examined — "'Short term memory loss', as films use the
+  phrase" — and the label lands correctly.
+- **Every explanation has to correspond to something real.** Where a claim is a
+  reasonable inference rather than an established finding, say so rather than
+  dressing it as one, and do not invent numbers. Two entries carried errors of
+  this kind for a while: certainty described as "spread evenly" across correct
+  and incorrect memories, which implies no relationship where there is a weak
+  one, and a flat "no signal at all" for change blindness.
 - **`surface` must never name a concept or hint at the mechanism.** In Class mode
   it is the only text a student sees. If it gives the answer away, the mode is
   broken.

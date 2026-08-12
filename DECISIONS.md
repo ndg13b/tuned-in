@@ -88,10 +88,16 @@ bare `myth` beneath a concept named "Short-term memory is seconds, not a day"
 read as though that true statement were the myth, which is the opposite of what
 the card means.
 
-Cards now print **pop culture gets this right / overstates this / gets this
-wrong**, which names who is being judged. The filter chips keep the short forms.
-The three underlying values and their colours are unchanged; only the wording a
-reader sees moved.
+Cards print **this is real / real, but exaggerated / this is a myth**. The
+filter chips keep the short forms. The three underlying values and their colours
+are unchanged; only the wording a reader sees moved.
+
+An earlier attempt used "pop culture gets this right", which was abandoned after
+one round because it is a category error on half the collection. The gorilla
+video, the card trick, The Dress and Yanny/Laurel do not *portray* a phenomenon,
+they *cause* one in the viewer, and there is no pop culture doing anything right
+or wrong on those cards. The current wording judges the concept named above it
+and works for both kinds.
 
 The related fix was in the concept names themselves. Several `myth` concepts
 were named for the true mechanism — "Failure of consolidation", "Reconstructive
