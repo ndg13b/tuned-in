@@ -23,8 +23,8 @@ window.ENTRIES = [
   concepts:[
     {name:"Inattentional blindness", area:"attention", verdict:"accurate",
      explanation:"Roughly half of viewers do not see the gorilla walk into frame, beat its chest and leave. Not blurred, not dim — absent. Committing attention to the counting task leaves it unprocessed at the level awareness requires."},
-    {name:"Naive realism about our own perception", area:"meta", verdict:"accurate",
-     explanation:"The second finding is the reaction. People who missed it are certain no gorilla was there and often accuse the presenter of swapping videos. We have no felt sense of what we failed to process, so not noticing feels identical to nothing being there."}
+    {name:"The illusion of attention", area:"meta", verdict:"accurate",
+     explanation:"The second finding is the reaction. People who missed it are often certain nothing was there, and some ask whether the video was swapped. We badly overestimate how much of a scene we take in, and there is no inward signal marking what went unprocessed, so missing something feels exactly like nothing having been there."}
   ],
   tags:["classic","funny","attention"]
 },
@@ -48,7 +48,7 @@ window.ENTRIES = [
   prompt:"Could you perform that trick now, knowing the method?",
   concepts:[
     {name:"Change blindness", area:"attention", verdict:"accurate",
-     explanation:"The tablecloth, the backdrop and both performers' clothing change colour mid-shot, in one continuous take, and almost nobody notices. Without attention pointed at an object, a change to it generates no signal at all."},
+     explanation:"The tablecloth, the backdrop and both performers' clothing change colour mid-shot, in one continuous take, and almost nobody notices. Without attention pointed at an object, a change to it usually reaches no level you can report, even when your eyes have been on it the whole time."},
     {name:"Misdirection as applied attention research", area:"attention", verdict:"accurate",
      explanation:"Stage magic worked this out centuries before psychology did. The instruction to watch the card is the entire method: attention is a budget, and a magician's job is to get you to spend it somewhere convenient."}
   ],
@@ -76,7 +76,7 @@ window.ENTRIES = [
   prompt:"Which did you hear first? Now look at the other word and listen again.",
   concepts:[
     {name:"Perceptual ambiguity", area:"perception", verdict:"accurate",
-     explanation:"The acoustic energy genuinely supports both readings. Which one you get depends on how much high-frequency information reaches you, which varies with your age and your speakers. There is no fact of the matter to be right about."},
+     explanation:"The recording came from a dictionary site, where it was a reading of the word laurel, so there is a fact about what was said. What there is no fact about is what you hear. The acoustic energy genuinely supports both readings, and which one reaches you depends on how much high-frequency information your ears and your speakers pass along."},
     {name:"Top-down expectation", area:"perception", verdict:"accurate",
      explanation:"Show someone the written word and their hearing often flips to match. Perception uses prior expectation to resolve ambiguity, so what you expect becomes part of what you sense rather than what you conclude afterwards."}
   ],
@@ -113,7 +113,7 @@ window.ENTRIES = [
   prompt:"Is this a real technique, an invented one, or a real one filmed dishonestly?",
   concepts:[
     {name:"Method of loci", area:"memory", verdict:"overstated",
-     explanation:"Real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What the show exaggerates is speed and reliability — a usable palace takes weeks of practice."},
+     explanation:"Real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What the show exaggerates is speed and reliability. Building one that holds up takes sustained practice, and competitors train for a long time before it looks anything like effortless."},
     {name:"Elaborative encoding", area:"memory", verdict:"accurate",
      explanation:"Why it works is the interesting part. Spatial memory is unusually durable, so turning a flat list into a route through a place you already know gives each item several ways back instead of one. Anyone can learn it. It simply takes longer to build than the show lets on."}
   ],
@@ -125,12 +125,12 @@ window.ENTRIES = [
   surface:"A duel on a walkway, a revelation, and one of the most quoted lines in film. Watch what Vader actually says. Most people are certain it begins with the word Luke. It does not.",
   prompt:"Write down the line as you remember it before you press play.",
   concepts:[
-    {name:"Reconstructive memory", area:"memory", verdict:"myth",
-     explanation:"Memory is rebuilt each time from gist plus expectation, not stored and replayed. 'Luke' makes the line intelligible out of context, so it gets inserted on the way out."},
+    {name:"Memory as a recording", area:"memory", verdict:"myth",
+     explanation:"Nothing is stored and replayed. Each recollection is rebuilt from the gist plus what you would expect, which is why the rebuilt version can be wrong in ways that feel seamless. Adding Luke makes the line make sense on its own, so it gets inserted on the way out."},
     {name:"Schema-driven intrusion", area:"memory", verdict:"accurate",
      explanation:"The same thing happens to images. The Monopoly man has never worn a monocle, but one fits the top-hat-and-cane pattern so neatly that it grows into the memory of a picture most people have seen hundreds of times. Whatever fits gets filled in silently, and the filling feels identical to the remembering."},
-    {name:"Confidence-accuracy dissociation", area:"meta", verdict:"accurate",
-     explanation:"Everyone is certain, and certainty is spread evenly across the correct and incorrect answers. The friendliest possible route to a point that matters enormously in the eyewitness card."}
+    {name:"Confidence and accuracy come apart", area:"meta", verdict:"accurate",
+     explanation:"People who misremember the line are usually just as sure as people who have it right. Feeling certain is not nothing — under good conditions confidence does track accuracy — but it is a much weaker guide than it feels like from the inside, and rehearsing a memory raises the confidence without touching whether it is correct."}
   ],
   tags:["funny","viral","false memory"]
 },
@@ -153,9 +153,9 @@ window.ENTRIES = [
   surface:"A fish cheerfully explains that she suffers from short-term memory loss. It runs in her family. She loses the thread of the conversation while she is still having it.",
   prompt:"She names her own condition. Is the name right?",
   concepts:[
-    {name:"What 'short-term memory' actually means", area:"memory", verdict:"myth",
+    {name:"'Short term memory loss', as films use the phrase", area:"memory", verdict:"myth",
      explanation:"Short-term memory holds a handful of items for a few seconds. That is not what has failed here, and on screen the phrase almost always means something else. The 2004 film 50 First Dates makes the same mistake on a grander scale, with a memory that wipes clean every midnight; real amnesia does not run to a schedule."},
-    {name:"Failure of consolidation", area:"memory", verdict:"myth",
+    {name:"Failure of consolidation", area:"memory", verdict:"accurate",
      explanation:"Her actual problem is close to the opposite of what she calls it: nothing new reaches long-term storage. The short-term system is working fine, which is why she can follow a sentence at all."}
   ],
   tags:["funny","film","common error"]
@@ -256,7 +256,7 @@ window.ENTRIES = [
     {name:"Informational conformity", area:"social", verdict:"accurate",
      explanation:"Group behaviour is read as evidence about what the situation requires. If four people face the back, the reasonable inference is that there is a reason and you have missed it."},
     {name:"Normative conformity", area:"social", verdict:"accurate",
-     explanation:"Separately, the cost of visible deviation feels high even among strangers. Both forces point the same way here, which is why the segment lands harder than Asch's line-judgement task does."}
+     explanation:"Separately, the cost of visible deviation feels high even among strangers. Both point the same way here, which is why the segment lands harder than Asch's line-judgement task does. One correction worth making: the clip is constantly credited to Asch himself. It was made by the programme, years after his studies, and the resemblance is exactly why the misattribution keeps spreading."}
   ],
   tags:["funny","classic","hidden camera"]
 },
@@ -268,8 +268,8 @@ window.ENTRIES = [
   concepts:[
     {name:"Anchoring in a live setting", area:"jdm", verdict:"accurate",
      explanation:"The first number spoken drags the rest of the row toward it, and the pull survives contestants knowing perfectly well that the opening guess was arbitrary. Adjustment away from an anchor is reliably too small, even with money on the line and an audience shouting corrections."},
-    {name:"A structural advantage nobody uses", area:"jdm", verdict:"accurate",
-     explanation:"Bidding one dollar over the highest standing guess is close to optimal from the last position, and it took decades of televised play before it became common. Knowing the right strategy and being willing to look rude while executing it are separate problems."}
+    {name:"A structural advantage, slowly adopted", area:"jdm", verdict:"accurate",
+     explanation:"Bidding a dollar over the highest standing guess is close to optimal from the last position, and economists who studied the show found players leaving that advantage on the table for years before it became common. Knowing the better move and being willing to look rude making it are separate problems."}
   ],
   tags:["funny","game show","negotiation"]
 },
@@ -307,7 +307,7 @@ window.ENTRIES = [
   concepts:[
     {name:"Behavioural lie detection", area:"meta", verdict:"myth",
      explanation:"Across a large body of studies, people asked to detect deception from behaviour perform close to chance, and professional training barely moves the number. There is no reliable physical tell."},
-    {name:"Illusory correlation", area:"meta", verdict:"accurate",
+    {name:"The feedback that never arrives", area:"meta", verdict:"accurate",
      explanation:"Why the belief survives: you notice the times a hunch was right and rarely learn about the times it was wrong, because liars you believed never correct you. The feedback needed to disconfirm the belief is structurally missing."}
   ],
   tags:["myth","television","deception"]
