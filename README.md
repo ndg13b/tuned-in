@@ -124,14 +124,6 @@ exit `2` means liveness could not be determined.
 GitHub Actions runs it on every change to the collection and once a week, since
 link rot is the main long-term threat here.
 
-## Context for contributors
-
-`CLAUDE.md` holds the editorial rules, the data model and the voice.
-`DECISIONS.md` records what was considered and turned down, and why — worth
-reading before proposing a change to the naming, the card structure or the
-authoring workflow, since several obvious-looking ideas were tried and rejected
-for reasons that are not visible from the code.
-
 ## Licence
 
 See `LICENSE`. It covers the code in this repository. It does not cover the
