@@ -16,15 +16,20 @@ const ALLOWED = ["youtube.com","www.youtube.com","youtu.be","youtube-nocookie.co
 const areaLabel = k => (AREAS.find(a => a[0] === k) || [k,k])[1];
 
 /*
- * The verdict judges the portrayal, not the sentence above it. Printing a bare
- * "myth" under a concept named "Short-term memory is seconds, not a day" reads
- * as though that true statement were the myth. These labels say who is being
- * judged.
+ * The verdict judges the thing named above it, not the sentence explaining it.
+ * A bare "myth" under a concept named "Short-term memory is seconds, not a day"
+ * read as though that true statement were the myth.
+ *
+ * These labels avoid naming pop culture as the subject, because half the
+ * collection is not a portrayal at all: the gorilla video and The Dress do not
+ * depict a phenomenon, they cause one in the viewer. "This is real" covers both
+ * cases; "pop culture gets this right" only covers one, and the concept name
+ * has to carry the rest.
  */
 const VERDICTS = {
-  accurate:   { card:"pop culture gets this right", chip:"Gets it right" },
-  overstated: { card:"pop culture overstates this", chip:"Overstates it" },
-  myth:       { card:"pop culture gets this wrong", chip:"Gets it wrong" }
+  accurate:   { card:"this is real",             chip:"Real" },
+  overstated: { card:"real, but exaggerated",    chip:"Exaggerated" },
+  myth:       { card:"this is a myth",           chip:"Myth" }
 };
 const verdictLabel = (v, where) => (VERDICTS[v] || {})[where] || v;
 const esc = s => String(s == null ? "" : s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));

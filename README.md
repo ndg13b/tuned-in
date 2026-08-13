@@ -19,14 +19,17 @@ Every concept on a card carries one, and the middle one is doing real work.
 
 | Verdict | Shown on a card as | Means |
 | --- | --- | --- |
-| `accurate` | pop culture gets this right | The clip shows the real thing. |
-| `overstated` | pop culture overstates this | Real phenomenon, exaggerated portrayal. Sherlock's mind palace is a genuine technique filmed as though it were instant. |
-| `myth` | pop culture gets this wrong | The portrayal is wrong. Behavioural lie detection; the ten percent myth. |
+| `accurate` | this is real | The real thing, whether the clip depicts it or causes it in you. |
+| `overstated` | real, but exaggerated | Real phenomenon, exaggerated portrayal. Sherlock's mind palace is a genuine technique filmed as though it were instant. |
+| `myth` | this is a myth | Behavioural lie detection; the ten percent myth; memory as a recording. |
 
-The label names *pop culture* on purpose. The verdict judges the portrayal, not
-the sentence above it, and a bare "myth" under a concept called "what
-short-term memory actually means" reads as though the true statement were the
-myth.
+The label judges the concept named above it, so concept names state a topic or a
+claim, never a correction. A bare "myth" under a concept called "short-term
+memory is seconds, not a day" read as though that true statement were the myth.
+
+The labels deliberately avoid naming pop culture as the subject, because half
+the collection is not a portrayal: the gorilla video and The Dress do not depict
+a phenomenon, they cause one in the viewer.
 
 Collapsing these into right and wrong would make the site less accurate than the
 shows it corrects, so all three stay. Clips that get it wrong are as valuable as
