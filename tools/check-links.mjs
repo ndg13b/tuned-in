@@ -34,7 +34,7 @@ import vm from "node:vm";
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const OFFLINE = process.argv.includes("--offline");
 
-/* Must match the values documented in CLAUDE.md and offered in app.js. */
+/* Must match the values offered in app.js. */
 const AREAS = ["perception", "attention", "memory", "jdm", "social", "meta"];
 const VERDICTS = ["accurate", "overstated", "myth"];
 const KINDS = ["youtube", "image", "audio"];
