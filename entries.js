@@ -107,13 +107,13 @@ window.ENTRIES = [
   tags:["funny","sketch","study skills"]
 },
 {
-  source:{title:"Sherlock", kind:"Television drama, BBC", detail:"The mind palace sequences"},
+  source:{title:"Sherlock", kind:"Television drama, BBC", detail:"The Hounds of Baskerville, working out what HOUND stands for"},
   media:{kind:"youtube", videoId:"0FSKTndbwVo", start:0}, module:"Memory",
-  surface:"Sherlock closes his eyes, walks through an imagined building, and retrieves an exact fact from the room where he left it.",
+  surface:"Sherlock goes still in the middle of a conversation, shuts the room out, and words begin appearing around him. He sorts through them at speed and comes back with the answer.",
   prompt:"Is this a real technique, an invented one, or a real one filmed dishonestly?",
   concepts:[
     {name:"Method of loci", area:"memory", verdict:"overstated",
-     explanation:"Real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What the show exaggerates is speed and reliability. Building one that holds up takes sustained practice, and competitors train for a long time before it looks anything like effortless."},
+     explanation:"The technique the show is gesturing at is real and ancient: bind each item to a place along a familiar route, then walk the route to recall them. Competitive memory athletes genuinely use it. What appears on screen is a loose version of it, closer to free association than to a route through a building. What the show exaggerates is speed and reliability. Building one that holds up takes sustained practice, and competitors train for a long time before it looks anything like effortless."},
     {name:"Elaborative encoding", area:"memory", verdict:"accurate",
      explanation:"Why it works is the interesting part. Spatial memory is unusually durable, so turning a flat list into a route through a place you already know gives each item several ways back instead of one. Anyone can learn it. It simply takes longer to build than the show lets on."}
   ],
@@ -300,9 +300,9 @@ window.ENTRIES = [
   tags:["funny","magic","gullibility"]
 },
 {
-  source:{title:"Lie to Me", kind:"Television drama", detail:"The pilot, opening interrogation"},
+  source:{title:"Lie to Me", kind:"Television drama", detail:"The pilot, Lightman lecturing a room on reading faces"},
   media:{kind:"youtube", videoId:"bWyhsqh_e9s", start:0}, module:"Metacognition & myths",
-  surface:"A consultant freezes video of a suspect's face, identifies a flicker lasting a fraction of a second, and declares the person is lying. He is always right.",
+  surface:"A consultant stops a recording on a single frame of someone's face, points to a movement lasting a fraction of a second, and tells the room what the person is hiding. Across the series he is almost never wrong.",
   prompt:"How would you design a study to test whether this works?",
   concepts:[
     {name:"Behavioural lie detection", area:"meta", verdict:"myth",
