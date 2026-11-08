@@ -1,7 +1,11 @@
   :root{
     --ground:#DCDDD8; --surface:#F7F7F4; --surface-2:#E9E9E3; --slate:#20263A;
     --ink:#191F33; --ink-soft:#5A6076; --rule:#C2C4BC;
-    --blue:#3F4E9E; --gold:#A97C10; --rose:#A8455F;
+    /* Gold is darker than the original mustard because it is only ever used
+       where contrast matters: as the "real, but exaggerated" label and behind
+       the white numeral on that card. At #A97C10 those were 3.5:1 and 3.8:1,
+       both under the 4.5:1 floor. This reads as the same colour and passes. */
+    --blue:#3F4E9E; --gold:#8F680E; --rose:#A8455F;
     --display:'Fraunces',Georgia,serif;
     --body:'Archivo',system-ui,-apple-system,sans-serif;
     --mono:'JetBrains Mono',ui-monospace,monospace;

@@ -308,14 +308,20 @@ function conceptBlock(){
   cn++;
   const d = document.createElement("fieldset");
   d.className = "cblock";
+  /*
+   * Each control needs its own id so its visible label can point at it. The
+   * labels used to be bare <label> elements with nothing tying them to the
+   * field, which looks right and reads as four unlabelled inputs to a screen
+   * reader. The block number keeps the ids unique as concepts are added.
+   */
   d.innerHTML = `<legend>Concept ${cn}</legend>
-    <div class="field"><label>Name</label><input class="c-name" placeholder="Anchoring and adjustment"></div>
-    <div class="field"><label>Area</label><select class="c-area">${AREAS.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
-    <div class="field full"><label>Verdict</label><select class="c-verdict">
+    <div class="field"><label for="c-name-${cn}">Name</label><input id="c-name-${cn}" class="c-name" placeholder="Anchoring and adjustment"></div>
+    <div class="field"><label for="c-area-${cn}">Area</label><select id="c-area-${cn}" class="c-area">${AREAS.map(([k,l])=>`<option value="${k}">${l}</option>`).join("")}</select></div>
+    <div class="field full"><label for="c-verdict-${cn}">Verdict</label><select id="c-verdict-${cn}" class="c-verdict">
       <option value="accurate">Accurate — shows the real thing</option>
       <option value="overstated">Overstated — right idea, exaggerated</option>
       <option value="myth">Myth — gets it wrong</option></select></div>
-    <div class="field full"><label>Explanation</label><textarea class="c-exp"></textarea></div>`;
+    <div class="field full"><label for="c-exp-${cn}">Explanation</label><textarea id="c-exp-${cn}" class="c-exp"></textarea></div>`;
   document.getElementById("cblocks").appendChild(d);
 }
 conceptBlock();
