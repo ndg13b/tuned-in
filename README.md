@@ -63,10 +63,12 @@ clip is there to show.
   sound file, pulls out the video id and start time, and hands back a finished
   entry to paste into `entries.js`.
 
-Not everything worth teaching is a video, so an entry's media is a YouTube clip,
-an image or an audio file. The Dress is a photograph and Yanny/Laurel is a sound
-file, and both are among the better demonstrations here. Stills are shown
-directly and need alt text; audio is not fetched until you press play.
+An entry's media can be a YouTube clip, an image or an audio file. Stills are
+shown directly and need alt text; audio is not fetched until you press play.
+Every entry currently uses a clip — The Dress and Yanny/Laurel are carried by
+news coverage rather than by a hosted still or sound file, since no properly
+licensed copy of either was findable. The image and audio kinds stay available
+for when one is.
 
 ## What this site will not do
 
@@ -109,6 +111,7 @@ with any static server.
 ```sh
 node tools/check-links.mjs             # structure, editorial rules, and live clips
 node tools/check-links.mjs --offline   # skip the network half
+node tools/check-links.mjs --record    # re-record what each clip currently is
 ```
 
 It verifies that entries are structurally sound, that no description gives away
@@ -117,9 +120,21 @@ student sees — and that every video id still resolves. For each clip it prints
 the live video title, so an id that has quietly come to point somewhere else is
 visible rather than passing as a bare 200.
 
+It also compares each clip against `tools/clip-fingerprints.json`, which records
+the title and channel every clip had when it was last checked by a person. A
+clip can stay alive and quietly stop being the right clip — the upload gets
+replaced, or re-cut, or retitled — and liveness alone cannot see that. A
+difference is reported rather than failed, since channels rename things
+harmlessly; once you have confirmed the clip still shows what its card
+describes, `--record` updates the file.
+
 It also confirms it can actually reach YouTube before treating a 403 as a dead
 video, because a filtering proxy answers 403 too. Exit `1` is a real problem;
 exit `2` means liveness could not be determined.
+
+The weekly run writes `link-status.md`, so the state of every clip is visible in
+the repository without opening the Actions log, and a changed title shows up as
+a diff.
 
 GitHub Actions runs it on every change to the collection and once a week, since
 link rot is the main long-term threat here.

@@ -57,8 +57,8 @@ window.ENTRIES = [
 
 /* ---------- described, awaiting a verified clip ---------- */
 {
-  source:{title:"The Dress", kind:"Viral photograph, 2015", detail:"The original post and the week that followed"},
-  media:{kind:"image", src:"", alt:"", credit:""}, module:"Sensation & perception",
+  source:{title:"The Dress", kind:"Viral photograph, 2015", detail:"BBC News on the week nobody could agree"},
+  media:{kind:"youtube", videoId:"kc1GjIAFdMA", start:0}, module:"Sensation & perception",
   surface:"A photo of a dress splits the internet in half. One group sees blue and black, the other white and gold, and neither can believe the other is being serious.",
   prompt:"Take a show of hands. Then ask the two camps to convince each other.",
   concepts:[
@@ -70,8 +70,8 @@ window.ENTRIES = [
   tags:["viral","classic","illumination"]
 },
 {
-  source:{title:"Yanny or Laurel", kind:"Viral audio clip, 2018", detail:"The original, plus the pitch-shifted versions"},
-  media:{kind:"audio", src:"", credit:""}, module:"Sensation & perception",
+  source:{title:"Yanny or Laurel", kind:"Viral audio clip, 2018", detail:"The recording as the Guardian carried it"},
+  media:{kind:"youtube", videoId:"7X_WvGAhMlQ", start:0}, module:"Sensation & perception",
   surface:"One short recording. Half the room hears one name, half hears a completely different one, and reading the other word on screen can make yours switch mid-listen.",
   prompt:"Which did you hear first? Now look at the other word and listen again.",
   concepts:[
@@ -121,7 +121,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"The Empire Strikes Back", kind:"Film, 1980", detail:"The Cloud City duel, and the line everybody misquotes"},
-  media:{videoId:"", start:0}, module:"Memory",
+  media:{kind:"youtube", videoId:"GLheiLGZ1k8", start:0}, module:"Memory",
   surface:"A duel on a walkway, a revelation, and one of the most quoted lines in film. Watch what Vader actually says. Most people are certain it begins with the word Luke. It does not.",
   prompt:"Write down the line as you remember it before you press play.",
   concepts:[
@@ -174,8 +174,8 @@ window.ENTRIES = [
   tags:["funny","film","logic"]
 },
 {
-  source:{title:"Pawn Stars", kind:"Reality television", detail:"A haggle where the seller names the first number"},
-  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
+  source:{title:"Pawn Stars", kind:"Reality television", detail:"Haggling 101, the shop's own cut of its negotiations"},
+  media:{kind:"youtube", videoId:"EHtaek38Erg", start:0}, module:"Judgment & decision making",
   surface:"Someone names a number first. Every offer that follows orbits it, including offers from people who say out loud that the first number was nonsense.",
   prompt:"Track the numbers. Where did each one actually come from?",
   concepts:[
@@ -188,7 +188,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Super Bowl XLIX", kind:"Live sport and its aftermath", detail:"Seattle's second-and-goal pass from the one yard line, February 2015"},
-  media:{kind:"youtube", videoId:"", start:0}, module:"Judgment & decision making",
+  media:{kind:"youtube", videoId:"RJnsU6wqTNM", start:0}, module:"Judgment & decision making",
   surface:"With twenty-six seconds left and the ball on the one yard line, Seattle throws instead of running. It is intercepted. Within minutes it is being called the worst decision in the history of the sport.",
   prompt:"Before the snap, would you have called it indefensible?",
   concepts:[
@@ -288,7 +288,7 @@ window.ENTRIES = [
 },
 {
   source:{title:"Derren Brown: Trick of the Mind", kind:"Television series, series 3", detail:"The astrology experiment, where everyone is handed the same reading"},
-  media:{kind:"youtube", videoId:"", start:0}, module:"Metacognition & myths",
+  media:{kind:"youtube", videoId:"haP7Ys9ocTk", start:0}, module:"Metacognition & myths",
   surface:"Everyone in the room is handed a personality profile. Each person finds theirs uncannily accurate. Every profile is identical.",
   prompt:"Read one line aloud. How many people think it came from theirs?",
   concepts:[
