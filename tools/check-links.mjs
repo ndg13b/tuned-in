@@ -26,7 +26,7 @@
  *   2  inconclusive: could not reach YouTube at all, so liveness is unknown
  */
 
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import path from "node:path";
 import vm from "node:vm";
@@ -231,6 +231,20 @@ console.log(`${sourced.length} with media, ${awaiting.length} awaiting it\n`);
 const dead = [];
 let unreachable = 0;
 
+/*
+ * What each clip looked like when it was last confirmed by a person, keyed by
+ * video id. Printing the live title only helps if somebody reads the log; this
+ * compares it automatically. `--record` refreshes the file after a human has
+ * actually checked that a changed clip is still the right one.
+ */
+const FINGERPRINTS = path.join(ROOT, "tools", "clip-fingerprints.json");
+const RECORD = process.argv.includes("--record");
+let fingerprints = {};
+try { fingerprints = JSON.parse(readFileSync(FINGERPRINTS, "utf8")); } catch { /* none yet */ }
+const recorded = {};
+const changed = [];
+const unrecorded = [];
+
 if (OFFLINE) {
   console.log("Skipping the liveness check (--offline).\n");
 } else {
@@ -252,10 +266,22 @@ if (OFFLINE) {
     const result = kind === "youtube" ? await checkVideo(ref) : await checkUrl(ref);
     const name = e.source?.title;
     if (result.state === "alive") {
-      /* Printing the live title makes rot into a *different* video visible,
-         which a bare 200 would hide. */
       const detail = result.title ? ` -> "${result.title}" (${result.author})` : "";
       console.log(`  ok        ${kind.padEnd(7)} ${name}${detail}`);
+      /*
+       * A clip can stay alive and stop being the right clip: the id is reused,
+       * the upload is replaced, the channel re-cuts it. Liveness cannot see
+       * that. Comparing against what was recorded at sourcing time can.
+       */
+      if (result.title) {
+        const was = fingerprints[ref];
+        if (!was) {
+          unrecorded.push(`${name} (${ref})`);
+        } else if (was.title !== result.title || was.author !== result.author) {
+          changed.push({ name, ref, was, now: { title: result.title, author: result.author } });
+        }
+        recorded[ref] = { title: result.title, author: result.author };
+      }
     } else if (result.state === "dead") {
       console.log(`  DEAD      ${kind.padEnd(7)} ${name}: ${result.reason}`);
       dead.push(`${name} (${ref}): ${result.reason}`);
@@ -271,6 +297,27 @@ if (awaiting.length) {
   console.log("Awaiting verified media:");
   for (const e of awaiting) console.log(`  ${e.source?.title} — ${e.source?.detail}`);
   console.log("");
+}
+
+if (changed.length) {
+  console.log("Clips that are alive but no longer look like what was recorded:");
+  for (const c of changed) {
+    console.log(`  ${c.name} (${c.ref})`);
+    console.log(`     was: "${c.was.title}" (${c.was.author})`);
+    console.log(`     now: "${c.now.title}" (${c.now.author})`);
+  }
+  console.log("  Check each one still shows what its card describes, then run with --record.\n");
+}
+
+if (unrecorded.length && !RECORD) {
+  console.log(`No fingerprint recorded yet for ${unrecorded.length} clip(s); run with --record once you have checked them.`);
+  for (const u of unrecorded) console.log(`  ${u}`);
+  console.log("");
+}
+
+if (RECORD && Object.keys(recorded).length) {
+  writeFileSync(FINGERPRINTS, JSON.stringify(recorded, null, 2) + "\n");
+  console.log(`Recorded ${Object.keys(recorded).length} clip fingerprints to tools/clip-fingerprints.json.\n`);
 }
 
 if (problems.length) {
