@@ -183,6 +183,30 @@ function cardHTML(e){
   </article>`;
 }
 
+/* A thumbnail is the first thing to go when a video is pulled, and the failure
+   is not the one you would expect. Asked for a dead video's thumbnail, YouTube
+   answers 404 but sends a body anyway: a 120x90 grey placeholder, which the
+   browser decodes happily. So onerror never fires, onload does, and the card
+   renders that grey square stretched across the whole stage by object-fit.
+   The size is the only tell — a live hqdefault is 480x360 — so both outcomes
+   are handled: a real load failure, and a success that is really a placeholder.
+
+   Dropping the image leaves the slate stage and the Play pill, which reads as a
+   deliberate frame rather than as a fault. The card stays playable on purpose,
+   since a video can lose its thumbnail and still embed; tools/check-links.mjs
+   is what reports a clip as actually dead. A capture-phase listener because
+   neither load nor error bubbles, and a listener rather than an inline onerror
+   so that adding a content security policy later would not quietly disarm it. */
+document.addEventListener("load", ev => {
+  const img = ev.target;
+  if(img.tagName === "IMG" && img.parentElement?.classList.contains("facade")
+     && img.naturalWidth < 200) img.remove();
+}, true);
+document.addEventListener("error", ev => {
+  const img = ev.target;
+  if(img.tagName === "IMG" && img.parentElement?.classList.contains("facade")) img.remove();
+}, true);
+
 document.addEventListener("click", async ev => {
   const play = ev.target.closest(".facade");
   if(play){
