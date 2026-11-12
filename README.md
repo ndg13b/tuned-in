@@ -11,7 +11,7 @@ concept than a definition is. Students arrive having seen Michael Scott drive
 into a lake; they arrive believing what *Lie to Me* told them about spotting a
 liar. Both are useful, and the second is often more useful than the first.
 
-**Live at <https://ndg13b.github.io/tuned-in/>**
+**Live at <https://tunedinpsych.org>**
 
 ## The three verdicts
 
